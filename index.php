@@ -554,26 +554,31 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 } else {
                     document.getElementById("editModalPS5").checked = false;
                 }
+
                 if(platforms.includes("PS4")) {
                     document.getElementById("editModalPS4").checked = true;
                 } else {
                     document.getElementById("editModalPS4").checked = false;
                 }
+
                 if(platforms.includes("PSVR2")) {
                     document.getElementById("editModalPSVR2").checked = true;
                 } else {
                     document.getElementById("editModalPSVR2").checked = false;
                 }
+
                 if(platforms.includes("PC")) {
                     document.getElementById("editModalPC").checked = true;
                 } else {
                     document.getElementById("editModalPC").checked = false;
                 }
+
                 if(platforms.includes("Switch")) {
                     document.getElementById("editModalSwitch").checked = true;
                 } else {
                     document.getElementById("editModalSwitch").checked = false;
                 }
+                
                 if(platforms.includes("Android")) {
                     document.getElementById("editModalAndroid").checked = true;
                 } else {
