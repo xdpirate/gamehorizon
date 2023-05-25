@@ -269,6 +269,14 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             th {
                 background-color: #d2e2f9;
             }
+
+            /* Phone styles */
+            @media all and (max-width: 1000px) {
+                #everything {
+                    width: 100%;
+                    margin: auto;
+                }
+            }
         </style>
 
         <link href="./favicon.png" rel="icon" type="image/png" />
@@ -578,7 +586,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 } else {
                     document.getElementById("editModalSwitch").checked = false;
                 }
-                
+
                 if(platforms.includes("Android")) {
                     document.getElementById("editModalAndroid").checked = true;
                 } else {
