@@ -9,7 +9,8 @@ Simple self-hosted tracker for upcoming and current games you wanna play.
 * MySQL
 
 ## Security
-There is currently zero security measures implemented. You can use `.htaccess` based authentication or make sure the application isn't exposed outside your local network.
+
+There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
 ## Database credentials
 
@@ -26,6 +27,7 @@ $mysqlPassword = "your-sql-password";
 Replace the values of the variables to fit your database configuration.
 
 # Database format
+
 You need one database named `gamehorizon`.
 
 ```
