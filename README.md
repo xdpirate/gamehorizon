@@ -8,6 +8,9 @@ Simple self-hosted tracker for upcoming and current games you wanna play.
 * PHP
 * MySQL
 
+## Security
+There is currently zero security measures implemented. You can use `.htaccess` based authentication or make sure the application isn't exposed outside your local network.
+
 ## Database credentials
 
 You need to create `credentials.php` in the same directory as `index.php`, and populate it with the following:
