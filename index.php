@@ -367,7 +367,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
         </div>
 
         <div id="everything">
-            <h1><a href="./">GameHorizon</a></h1>
+            <h1><img src="./favicon.png" width="32" height="32" /> <a href="./">GameHorizon</a></h1>
             <small><i>This game sucks.</i><br />- AVGN</small>
 
             <div id="newEntryToggleDiv" onclick="toggleNewGameDiv();"><h3 id="formHeader">Add game</h3></div>
