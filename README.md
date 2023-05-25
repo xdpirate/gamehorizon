@@ -8,6 +8,10 @@ Simple self-hosted tracker for upcoming and current games you wanna play.
 * PHP
 * MySQL
 
+## Usability
+
+It works as intended. It doesn't look too hot on phones, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. The platform list need to be expanded for use by others than myself, as I've only added the ones I currently play on.
+
 ## Security
 
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
@@ -26,9 +30,9 @@ $mysqlPassword = "your-sql-password";
 
 Replace the values of the variables to fit your database configuration.
 
-# Database format
+## Database format
 
-You need one database named `gamehorizon`.
+You need a MySQL database named `gamehorizon`.
 
 ```
 CREATE DATABASE gamehorizon; USE gamehorizon;
