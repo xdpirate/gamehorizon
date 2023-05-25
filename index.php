@@ -108,19 +108,6 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
 
         mysqli_query($link, "DELETE FROM $oldTable WHERE ID=$gameID");
     }
-    
-
-    // editModalGameTitle=Half+Life+34
-    // editModalReleaseDate=2588-05-21
-    // editModalReleaseStatus=tba
-    // editModalPS5=on
-    // editModalPS4=on
-    // editModalPSVR2=on
-    // editModalPC=on
-    // editModalSwitch=on
-    // editModalAndroid=on
-    // editID=13
-    // editStatus=unreleased
 }
 
 if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
@@ -257,10 +244,6 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             #newEntryToggleDiv {
                 text-decoration: underline;
                 cursor: pointer;
-            }   
-
-            #submittedNote {
-                height: 80px;
             }
 
             .editButton {
@@ -285,47 +268,6 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
             th {
                 background-color: #d2e2f9;
-            }
-
-            #toastNotification {
-                visibility: hidden;
-                min-width: 250px;
-                margin-left: -125px;
-                background-color: #333;
-                color: #fff;
-                text-align: center;
-                border-radius: 2px;
-                padding: 16px;
-                position: fixed;
-                z-index: 1;
-                left: 50%;
-                bottom: 30px;
-            }
-
-            #toastNotification.show {
-                visibility: visible;
-                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            }
-
-            @-webkit-keyframes fadein {
-                from {bottom: 0; opacity: 0;}
-                to {bottom: 30px; opacity: 1;}
-            }
-
-            @keyframes fadein {
-                from {bottom: 0; opacity: 0;}
-                to {bottom: 30px; opacity: 1;}
-            }
-
-            @-webkit-keyframes fadeout {
-                from {bottom: 30px; opacity: 1;}
-                to {bottom: 0; opacity: 0;}
-            }
-
-            @keyframes fadeout {
-                from {bottom: 30px; opacity: 1;}
-                to {bottom: 0; opacity: 0;}
             }
         </style>
 
@@ -560,19 +502,6 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 } else {
                     document.getElementById("newGameWrapper").style.display = "none";
                 }
-            }
-
-            function showToastNotification(text) {
-                // Reset timeout if toast is already shown
-                clearTimeout(toastTimeout);
-
-                let toastNotification = document.getElementById("toastNotification");
-                toastNotification.innerHTML = text;
-                toastNotification.classList.add("show");
-                
-                toastTimeout = setTimeout(function(){ 
-                    toastNotification.classList.remove("show"); 
-                }, 3000);
             }
 
             function editGame(table, id, editBtn) {

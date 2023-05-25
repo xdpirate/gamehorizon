@@ -17,7 +17,7 @@ You need to create `credentials.php` in the same directory as `index.php`, and p
 
 ```
 <?php
-$mysqlHost = "localhost";
+$mysqlHost = "your-sql-hostname";
 $mysqlUser = "your-sql-username";
 $mysqlPassword = "your-sql-password";
 ?>
