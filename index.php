@@ -368,7 +368,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
         <div id="everything">
             <h1><img src="./favicon.png" width="32" height="32" /> <a href="./">GameHorizon</a></h1>
-            <small><i>This game sucks.</i><br />- AVGN</small>
+            <small><i>"This game sucks"</i> - AVGN</small>
 
             <div id="newEntryToggleDiv" onclick="toggleNewGameDiv();"><h3 id="formHeader">Add game</h3></div>
             <div id="newGameWrapper">
@@ -416,7 +416,17 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                 $releaseDate = mysqli_result($resGamesUnreleased,$i,"ReleaseDate");
                                 $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
 
-                                $outputstring = "<tr><td>$gameTitle</td><td>$releaseDate</td><td>";
+                                $remaining = ceil((strtotime($releaseDate) - time())/60/60/24);
+
+                                if($remaining == 1) {
+                                    $remaining = "Releases tomorrow";
+                                } elseif($remaining == 0) {
+                                    $remaining = "Releases today";
+                                } elseif($remaining > 0) {
+                                    $remaining = "Releases in $remaining days";
+                                }
+
+                                $outputstring = "<tr><td>$gameTitle</td><td><span title='$remaining'>$releaseDate</span></td><td>";
 
                                 if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                     for($j = 0; $j < sizeof($platforms); $j++) {
