@@ -329,8 +329,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             }
         </style>
 
-        <!-- TODO: New favicon-->
-        <!-- <link href="" rel="icon" type="image/png" /> -->
+        <link href="./favicon.png" rel="icon" type="image/png" />
 
         <script>let toastTimeout;</script>
     </head>
