@@ -226,6 +226,17 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 margin: 0;
             }
 
+            span.tab {
+                margin-left: 5px;
+                margin-right: 5px;
+                cursor: pointer;
+            }
+
+            span.activetab {
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
             h1 > a {
                 text-decoration: none;
                 color: #000;
@@ -282,6 +293,10 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
             th {
                 background-color: #d2e2f9;
+            }
+
+            #tbaWrapper, #releasedWrapper, #collectionWrapper {
+                display: none;
             }
 
             /* Phone styles */
@@ -367,158 +382,173 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             </div>
            
             <div id="savedGamesAreaWrapper">
-                <h2>Unreleased</h2>
-                <table>
-                    <thead>
-                        <th>Name</th>
-                        <th>Release date</th>
-                        <th>Platforms</th>
-                        <th>Options</th>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $numrows = mysqli_num_rows($resGamesUnreleased); 
-                            for($i = 0; $i < $numrows; $i++) {
-                                $gameID = mysqli_result($resGamesUnreleased,$i,"ID");
-                                $gameTitle = mysqli_result($resGamesUnreleased,$i,"GameName");
-                                $releaseDate = mysqli_result($resGamesUnreleased,$i,"ReleaseDate");
-                                $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
+                <div id="tabs">
+                        <span id="unreleasedTab" class="tab activetab" onclick="changeTab(this, 'unreleased');">Unreleased</span>
+                        <span id="tbaTab" class="tab" onclick="changeTab(this, 'tba');">Announced</span>
+                        <span id="releasedTab" class="tab" onclick="changeTab(this, 'released');">Released</span>
+                        <span id="collectionTab" class="tab" onclick="changeTab(this, 'collection');">Collected</span>
+                </div>
 
-                                $remaining = ceil((strtotime($releaseDate) - time())/60/60/24);
+                <div class="tableWrapper" id="unreleasedWrapper">
+                    <h2>Unreleased</h2>
+                    <table>
+                        <thead>
+                            <th>Name</th>
+                            <th>Release date</th>
+                            <th>Platforms</th>
+                            <th>Options</th>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                $numrows = mysqli_num_rows($resGamesUnreleased); 
+                                for($i = 0; $i < $numrows; $i++) {
+                                    $gameID = mysqli_result($resGamesUnreleased,$i,"ID");
+                                    $gameTitle = htmlentities(mysqli_result($resGamesUnreleased,$i,"GameName"));
+                                    $releaseDate = mysqli_result($resGamesUnreleased,$i,"ReleaseDate");
+                                    $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
 
-                                if($remaining == 1) {
-                                    $remaining = "Releases tomorrow";
-                                } elseif($remaining == 0) {
-                                    $remaining = "Releases today";
-                                } elseif($remaining > 0) {
-                                    $remaining = "Releases in $remaining days";
-                                }
+                                    $remaining = ceil((strtotime($releaseDate) - time())/60/60/24);
 
-                                $outputstring = "<tr><td>$gameTitle</td><td><span title='$remaining'>$releaseDate</span></td><td>";
-
-                                if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                    for($j = 0; $j < sizeof($platforms); $j++) {
-                                        $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                    if($remaining == 1) {
+                                        $remaining = "Releases tomorrow";
+                                    } elseif($remaining == 0) {
+                                        $remaining = "Releases today";
+                                    } elseif($remaining > 0) {
+                                        $remaining = "Releases in $remaining days";
                                     }
-                                }
 
-                                $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                    $outputstring = "<tr><td>$gameTitle</td><td><span title='$remaining'>$releaseDate</span></td><td>";
 
-                                $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=unreleased' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
-
-                                print $outputstring;
-                            }
-
-                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                        ?>
-                    </tbody>
-                </table>
-
-                <h2>Announced</h2>
-                <table>
-                    <thead>
-                        <th>Name</th>
-                        <th>Platforms</th>
-                        <th>Options</th>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $numrows = mysqli_num_rows($resGamesTBA); 
-                            for($i = 0; $i < $numrows; $i++) {
-                                $gameID = mysqli_result($resGamesTBA,$i,"ID");
-                                $gameTitle = mysqli_result($resGamesTBA,$i,"GameName");
-                                $releaseDate = mysqli_result($resGamesTBA,$i,"ReleaseDate");
-                                $platforms = explode("|", mysqli_result($resGamesTBA,$i,"Platforms"));
-
-                                $outputstring = "<tr><td>$gameTitle</td><td>";
-
-                                if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                    for($j = 0; $j < sizeof($platforms); $j++) {
-                                        $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                        for($j = 0; $j < sizeof($platforms); $j++) {
+                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        }
                                     }
+
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+
+                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=unreleased' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                    print $outputstring;
                                 }
 
-                                $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
 
-                                $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=tba' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                <div class="tableWrapper" id="tbaWrapper">
+                    <h2>Announced</h2>
+                    <table>
+                        <thead>
+                            <th>Name</th>
+                            <th>Platforms</th>
+                            <th>Options</th>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                $numrows = mysqli_num_rows($resGamesTBA); 
+                                for($i = 0; $i < $numrows; $i++) {
+                                    $gameID = mysqli_result($resGamesTBA,$i,"ID");
+                                    $gameTitle = htmlentities(mysqli_result($resGamesTBA,$i,"GameName"));
+                                    $releaseDate = mysqli_result($resGamesTBA,$i,"ReleaseDate");
+                                    $platforms = explode("|", mysqli_result($resGamesTBA,$i,"Platforms"));
 
-                                print $outputstring;
-                            }
+                                    $outputstring = "<tr><td>$gameTitle</td><td>";
 
-                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                        ?>
-                    </tbody>
-                </table>
-
-                <h2>Released</h2>
-                <table>
-                    <thead>
-                        <th>Name</th>
-                        <th>Platforms</th>
-                        <th>Options</th>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $numrows = mysqli_num_rows($resGamesReleased); 
-                            for($i = 0; $i < $numrows; $i++) {
-                                $gameID = mysqli_result($resGamesReleased,$i,"ID");
-                                $gameTitle = mysqli_result($resGamesReleased,$i,"GameName");
-                                $platforms = explode("|", mysqli_result($resGamesReleased,$i,"Platforms"));
-
-                                $outputstring = "<tr><td>$gameTitle</td><td>";
-
-                                if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                    for($j = 0; $j < sizeof($platforms); $j++) {
-                                        $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                        for($j = 0; $j < sizeof($platforms); $j++) {
+                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        }
                                     }
+
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+
+                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=tba' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                    print $outputstring;
                                 }
 
-                                $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="tableWrapper" id="releasedWrapper">
+                    <h2>Released</h2>
+                    <table>
+                        <thead>
+                            <th>Name</th>
+                            <th>Platforms</th>
+                            <th>Options</th>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                $numrows = mysqli_num_rows($resGamesReleased); 
+                                for($i = 0; $i < $numrows; $i++) {
+                                    $gameID = mysqli_result($resGamesReleased,$i,"ID");
+                                    $gameTitle = htmlentities(mysqli_result($resGamesReleased,$i,"GameName"));
+                                    $platforms = explode("|", mysqli_result($resGamesReleased,$i,"Platforms"));
 
-                                $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=released' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring = "<tr><td>$gameTitle</td><td>";
 
-                                print $outputstring;
-                            }
-
-                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                        ?>
-                    </tbody>
-                </table>
-
-                <h2>Collection</h2>
-                <table>
-                    <thead>
-                        <th>Name</th>
-                        <th>Platforms</th>
-                        <th>Options</th>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $numrows = mysqli_num_rows($resGamesCollected); 
-                            for($i = 0; $i < $numrows; $i++) {
-                                $gameID = mysqli_result($resGamesCollected,$i,"ID");
-                                $gameTitle = mysqli_result($resGamesCollected,$i,"GameName");
-                                $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
-
-                                $outputstring = "<tr><td>$gameTitle</td><td>";
-
-                                if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                    for($j = 0; $j < sizeof($platforms); $j++) {
-                                        $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                        for($j = 0; $j < sizeof($platforms); $j++) {
+                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        }
                                     }
+
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+
+                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=released' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                    print $outputstring;
                                 }
 
-                                $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
 
-                                $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=collection' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                <div class="tableWrapper" id="collectionWrapper">
+                    <h2>Collection</h2>
+                    <table>
+                        <thead>
+                            <th>Name</th>
+                            <th>Platforms</th>
+                            <th>Options</th>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                $numrows = mysqli_num_rows($resGamesCollected); 
+                                for($i = 0; $i < $numrows; $i++) {
+                                    $gameID = mysqli_result($resGamesCollected,$i,"ID");
+                                    $gameTitle = htmlentities(mysqli_result($resGamesCollected,$i,"GameName"));
+                                    $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
 
-                                print $outputstring;
-                            }
+                                    $outputstring = "<tr><td>$gameTitle</td><td>";
 
-                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                        ?>
-                    </tbody>
-                </table>
+                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                        for($j = 0; $j < sizeof($platforms); $j++) {
+                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        }
+                                    }
+
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+
+                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=collection' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                    print $outputstring;
+                                }
+
+                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -678,6 +708,37 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 document.getElementById("editStatus").value = table;
 
                 document.getElementById("modalbg").style.display = "block";
+            }
+
+            function changeTab(tabElement, tabName) {
+                document.getElementById("unreleasedTab").classList.remove("activetab");
+                document.getElementById("tbaTab").classList.remove("activetab");
+                document.getElementById("releasedTab").classList.remove("activetab");
+                document.getElementById("collectionTab").classList.remove("activetab");
+                
+                tabElement.classList.add("activetab");
+
+                if(tabElement.id == "unreleasedTab") {
+                    document.getElementById("unreleasedWrapper").style.display = "block";
+                    document.getElementById("tbaWrapper").style.display = "none";
+                    document.getElementById("releasedWrapper").style.display = "none";
+                    document.getElementById("collectionWrapper").style.display = "none";
+                } else if(tabElement.id == "tbaTab") {
+                    document.getElementById("unreleasedWrapper").style.display = "none";
+                    document.getElementById("tbaWrapper").style.display = "block";
+                    document.getElementById("releasedWrapper").style.display = "none";
+                    document.getElementById("collectionWrapper").style.display = "none";
+                } else if(tabElement.id == "releasedTab") {
+                    document.getElementById("unreleasedWrapper").style.display = "none";
+                    document.getElementById("tbaWrapper").style.display = "none";
+                    document.getElementById("releasedWrapper").style.display = "block";
+                    document.getElementById("collectionWrapper").style.display = "none";
+                } else if(tabElement.id == "collectionTab") {
+                    document.getElementById("unreleasedWrapper").style.display = "none";
+                    document.getElementById("tbaWrapper").style.display = "none";
+                    document.getElementById("releasedWrapper").style.display = "none";
+                    document.getElementById("collectionWrapper").style.display = "block";
+                }
             }
         </script>
     </body>
