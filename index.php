@@ -409,12 +409,20 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                     $remaining = ceil((strtotime($releaseDate) - time())/60/60/24);
 
-                                    if($remaining == 1) {
+                                    if($remaining == 2) {
+                                        $remaining = "Releases the day after tomorrow";
+                                    } elseif($remaining == 1) {
                                         $remaining = "Releases tomorrow";
                                     } elseif($remaining == 0) {
                                         $remaining = "Releases today";
+                                    } elseif($remaining == -1) {
+                                        $remaining = "Released yesterday";
+                                    } elseif($remaining == -2) {
+                                        $remaining = "Released the day before yesterday";
                                     } elseif($remaining > 0) {
                                         $remaining = "Releases in $remaining days";
+                                    } elseif($remaining < -2) {
+                                        $remaining = "Released more than 2 days ago";
                                     }
 
                                     $outputstring = "<tr><td>$gameTitle</td><td><span title='$remaining'>$releaseDate</span></td><td>";
