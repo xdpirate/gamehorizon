@@ -1,12 +1,14 @@
 # GameHorizon
 
-Simple self-hosted tracker for upcoming and current games you wanna play.
+Simple self-hosted tracker for upcoming, current and collected games.
 
 ## Requirements
 
-* A web server like Apache2
+* A web server
+* A SQL server
 * PHP
-* MySQL
+
+GameHorizon is developed and tested using Apache2 and MySQL, but other web servers and SQL servers will probably work. Maybe.
 
 ## Usability
 
@@ -16,7 +18,10 @@ It works as intended. It doesn't look too hot on phones, owing to the horizontal
 
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
-## Database credentials
+## Installation
+Clone/download this repository and put the gamehorizon folder in your web server document root (typically `/var/www/html`)
+
+### Database credentials
 
 You need to create `credentials.php` in the same directory as `index.php`, and populate it with the following:
 
@@ -30,31 +35,24 @@ $mysqlPassword = "your-sql-password";
 
 Replace the values of the variables to fit your database configuration.
 
-## Database format
+### Database format
 
-You need a MySQL database named `gamehorizon`.
+You need to create a SQL database named `gamehorizon`.
 
 ```
 CREATE DATABASE gamehorizon; USE gamehorizon;
 ```
 
-You need to create three tables: `gamesUnreleased`, `gamesTBA`, and `gamesReleased`.
+You need to create four tables:
+
+* `gamesUnreleased`
+* `gamesTBA`
+* `gamesReleased`
+* `gamesCollected`
+
+Run the following on your SQL server:
 
 ```
-CREATE TABLE `gamesReleased` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `GameName` varchar(255) NOT NULL,
-  `Platforms` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `gamesTBA` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `GameName` varchar(255) NOT NULL,
-  `Platforms` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 CREATE TABLE `gamesUnreleased` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `GameName` varchar(255) NOT NULL,
@@ -62,4 +60,14 @@ CREATE TABLE `gamesUnreleased` (
   `Platforms` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `gamesReleased` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `GameName` varchar(255) NOT NULL,
+  `Platforms` varchar(255) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `gamesTBA` LIKE `gamesReleased`;
+CREATE TABLE `gamesCollected` LIKE `gamesReleased`;
 ```

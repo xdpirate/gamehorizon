@@ -30,6 +30,8 @@ if(isset($_GET['delete']) && isset($_GET['from'])) {
         $table = "gamesTBA";
     } elseif($_GET['from'] == "released") {
         $table = "gamesReleased";
+    } elseif($_GET['from'] == "collection") {
+        $table = "gamesCollected";
     }
 
     mysqli_query($link, "DELETE FROM $table WHERE ID=$ID");
@@ -53,6 +55,8 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
         $oldTable = "gamesTBA";
     } elseif($oldTable == "released") {
         $oldTable = "gamesReleased";
+    } elseif($oldTable == "collection") {
+        $oldTable = "gamesCollected";
     } else {
         die("Malformed request.");
     }
@@ -64,6 +68,8 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
         $newTable = "gamesTBA";
     } elseif($newTable == "released") {
         $newTable = "gamesReleased";
+    } elseif($newTable == "collection") {
+        $newTable = "gamesCollected";
     } else {
         die("Malformed request.");
     }
@@ -144,6 +150,8 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
         mysqli_query($link, "INSERT INTO gamesTBA (GameName,Platforms) VALUES ('$gameName','$platforms')");
     } elseif($releaseStatus == "released") {
         mysqli_query($link, "INSERT INTO gamesReleased (GameName,Platforms) VALUES ('$gameName','$platforms')");
+    } elseif($releaseStatus == "collection") {
+        mysqli_query($link, "INSERT INTO gamesCollected (GameName,Platforms) VALUES ('$gameName','$platforms')");
     }
 
     mysqli_close($link);
@@ -154,6 +162,7 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
 $resGamesReleased = mysqli_query($link, "SELECT * FROM gamesReleased ORDER BY GameName ASC;");
 $resGamesUnreleased = mysqli_query($link, "SELECT * FROM gamesUnreleased ORDER BY ReleaseDate ASC;");
 $resGamesTBA = mysqli_query($link, "SELECT * FROM gamesTBA ORDER BY GameName ASC;");
+$resGamesCollected = mysqli_query($link, "SELECT * FROM gamesCollected ORDER BY GameName ASC;");
 
 mysqli_close($link);
 
@@ -297,6 +306,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                     <input type="radio" id="editModalReleased" name="editModalReleaseStatus" value="released"><label for="editModalReleased">Released</label>
 
+                    <input type="radio" id="editModalCollection" name="editModalReleaseStatus" value="collection"><label for="editModalCollection">Collected</label>
+
                     <br />
                     Platform(s): 
                         <input type="checkbox" id="editModalPS5" name="editModalPS5" /><label for="editModalPS5">PS5</label>
@@ -331,6 +342,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                     <input type="radio" id="released" name="releaseStatus" value="released"><label for="released">Released</label>
                     
+                    <input type="radio" id="collection" name="releaseStatus" value="collection"><label for="collection">Collected</label>
+
                     <br />
                     Platform(s): 
                         <input type="checkbox" id="ps5" name="ps5" /><label for="ps5">PS5</label>
@@ -460,6 +473,39 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                         ?>
                     </tbody>
                 </table>
+
+                <h2>Collection</h2>
+                <table>
+                    <thead>
+                        <th>Name</th>
+                        <th>Platforms</th>
+                        <th>Options</th>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            $numrows = mysqli_num_rows($resGamesCollected); 
+                            for($i = 0; $i < $numrows; $i++) {
+                                $gameID = mysqli_result($resGamesCollected,$i,"ID");
+                                $gameTitle = mysqli_result($resGamesCollected,$i,"GameName");
+                                $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
+
+                                $outputstring = "<tr><td>$gameTitle</td><td>";
+
+                                if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                    for($j = 0; $j < sizeof($platforms); $j++) {
+                                        $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                    }
+                                }
+
+                                $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+
+                                $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=collection' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                print $outputstring;
+                            }
+                        ?>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -486,6 +532,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 }
             };
             
+            document.getElementById("collection").onchange = function() {
+                if(this.checked) {
+                    document.getElementById("releaseDate").readOnly = true;
+                }
+            };
+            
             document.getElementById("editModalUnreleased").onchange = function() {
                 if(this.checked) {
                     document.getElementById("editModalReleaseDate").readOnly = false;
@@ -499,6 +551,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             };
 
             document.getElementById("editModalReleased").onchange = function() {
+                if(this.checked) {
+                    document.getElementById("editModalReleaseDate").readOnly = true;
+                }
+            };
+            
+            document.getElementById("editModalCollection").onchange = function() {
                 if(this.checked) {
                     document.getElementById("editModalReleaseDate").readOnly = true;
                 }
@@ -528,18 +586,28 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     document.getElementById("editModalUnreleased").checked = true;
                     document.getElementById("editModalTBA").checked = false;
                     document.getElementById("editModalReleased").checked = false;
+                    document.getElementById("editModalCollection").checked = false;
                     document.getElementById("editModalReleaseDate").value = releaseDate;
                     document.getElementById("editModalReleaseDate").readOnly = false;
                 } else if(table == "tba") {
                     document.getElementById("editModalUnreleased").checked = false;
                     document.getElementById("editModalTBA").checked = true;
                     document.getElementById("editModalReleased").checked = false;
+                    document.getElementById("editModalCollection").checked = false;
                     document.getElementById("editModalReleaseDate").value = "0000-00-00";
                     document.getElementById("editModalReleaseDate").readOnly = true;
                 } else if(table == "released") {
                     document.getElementById("editModalUnreleased").checked = false;
                     document.getElementById("editModalTBA").checked = false;
                     document.getElementById("editModalReleased").checked = true;
+                    document.getElementById("editModalCollection").checked = false;
+                    document.getElementById("editModalReleaseDate").value = "0000-00-00";
+                    document.getElementById("editModalReleaseDate").readOnly = true;
+                } else if(table == "collection") {
+                    document.getElementById("editModalUnreleased").checked = false;
+                    document.getElementById("editModalTBA").checked = false;
+                    document.getElementById("editModalReleased").checked = false;
+                    document.getElementById("editModalCollection").checked = true;
                     document.getElementById("editModalReleaseDate").value = "0000-00-00";
                     document.getElementById("editModalReleaseDate").readOnly = true;
                 }
@@ -550,7 +618,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     platformNode = row.firstElementChild.nextElementSibling.nextElementSibling;
                 }
 
-                let platformSpans =platformNode.querySelectorAll("span");
+                let platformSpans = platformNode.querySelectorAll("span");
                 let platforms = [];
 
                 for(let i = 0; i < platformSpans.length; i++) {
