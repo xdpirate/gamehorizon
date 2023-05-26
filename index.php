@@ -259,6 +259,11 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 cursor: pointer;
             }
 
+            .tableFooter {
+                width: 100%;
+                text-align: right;
+            }
+
             th {
                 text-align: left;
             }
@@ -403,6 +408,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                 print $outputstring;
                             }
+
+                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
                         ?>
                     </tbody>
                 </table>
@@ -437,6 +444,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                 print $outputstring;
                             }
+
+                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
                         ?>
                     </tbody>
                 </table>
@@ -470,6 +479,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                 print $outputstring;
                             }
+
+                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
                         ?>
                     </tbody>
                 </table>
@@ -503,6 +514,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                 print $outputstring;
                             }
+
+                            print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
                         ?>
                     </tbody>
                 </table>
