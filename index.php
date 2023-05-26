@@ -512,7 +512,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
         <div id="toastNotification"></div>
         
         <script>
-            document.getElementById("newGameWrapper").style.display = "none";
+            //document.getElementById("newGameWrapper").style.display = "none";
 
             document.getElementById("unreleased").onchange = function() {
                 if(this.checked) {
