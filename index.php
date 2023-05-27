@@ -266,7 +266,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 cursor: pointer;
             }
 
-            .editButton {
+            .editButton, .deleteButton {
                 cursor: pointer;
             }
 
@@ -435,7 +435,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                     $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=unreleased' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -473,7 +473,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                     $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=tba' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -510,7 +510,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                     $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=released' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -547,7 +547,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                                     $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><a href='./?delete=$gameID&from=collection' title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -746,6 +746,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     document.getElementById("tbaWrapper").style.display = "none";
                     document.getElementById("releasedWrapper").style.display = "none";
                     document.getElementById("collectionWrapper").style.display = "block";
+                }
+            }
+
+            function deleteGame(gameID, table) {
+                if(confirm("Are you sure you want to delete this game?\nThis cannot be undone!")) {
+                    window.location.replace(`./?delete=${gameID}&from=${table}`);
                 }
             }
         </script>
