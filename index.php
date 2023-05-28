@@ -114,6 +114,8 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
 
         mysqli_query($link, "DELETE FROM $oldTable WHERE ID=$gameID");
     }
+
+    header("Location: ./");
 }
 
 if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
