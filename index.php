@@ -275,7 +275,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
     </head>
     
     <body>
-        <div id="modalbg" id="editModal" style="display: none;">
+        <div id="modalbg" style="display: none;">
             <div id="modal">
                 <b>Editing <i><span id="editModalGameName"></span></i></b>
                 <form id="editForm">
