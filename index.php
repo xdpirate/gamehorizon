@@ -1,8 +1,10 @@
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set("display_errors", 1);
-
 require("./credentials.php");
+
+$platformList = ["PS5", "PS4", "XSX", "XB1", "Switch", "PC", "Android", "PSVR2", "iOS"];
+sort($platformList);
 
 function mysqli_result($res,$row=0,$col=0){ 
     $numrows = mysqli_num_rows($res); 
@@ -74,7 +76,21 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
         die("Malformed request.");
     }
 
-    $platforms = mysqli_real_escape_string($link, implode("|", $_GET['editModalPlatforms']));
+    $platforms = [];
+    
+    if(isset($_GET['editModalPlatforms'])) {
+        $platforms = $_GET['editModalPlatforms'];
+    }
+
+    if(isset($_GET['editModalCheckboxOther']) && $_GET['editModalCheckboxOther'] == "on") {
+        $otherPlatforms = explode(",", mysqli_real_escape_string($link, $_GET['editModalOtherPlatforms']));
+
+        for($i = 0; $i < sizeof($otherPlatforms); $i++) {
+            array_push($platforms, trim($otherPlatforms[$i]));
+        }
+    }
+
+    $platforms = mysqli_real_escape_string($link, implode("|", $platforms));
 
     if($oldTable == $newTable) {
         // Same tables, update record
@@ -102,7 +118,23 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
     $releaseStatus = $_GET["releaseStatus"];
     $releaseDate = "";
 
-    $platforms = mysqli_real_escape_string($link, implode("|", $_GET['platforms']));
+    //$platforms = mysqli_real_escape_string($link, implode("|", $_GET['platforms']));
+
+    $platforms = [];
+    
+    if(isset($_GET['platforms'])) {
+        $platforms = $_GET['platforms'];
+    }
+
+    if(isset($_GET['platformCheckboxOther']) && $_GET['platformCheckboxOther'] == "on") {
+        $otherPlatforms = explode(",", mysqli_real_escape_string($link, $_GET['addGameOtherPlatforms']));
+
+        for($i = 0; $i < sizeof($otherPlatforms); $i++) {
+            array_push($platforms, trim($otherPlatforms[$i]));
+        }
+    }
+
+    $platforms = mysqli_real_escape_string($link, implode("|", $platforms));
 
     if($releaseStatus == "unreleased") {
         $releaseDate = mysqli_real_escape_string($link, $_GET["releaseDate"]);
@@ -157,7 +189,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 left: 50%;
                 transform: translate(-50%, -50%);
                 width: 600px;
-                height: 150px;
+                height: 260px;
                 background-color: white;
                 padding: 20px;
                 border: 1px solid black;
@@ -271,17 +303,29 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
         <link href="./favicon.png" rel="icon" type="image/png" />
 
-        <script>let toastTimeout;</script>
+        <script>
+            let toastTimeout;
+            <?php
+                $outputString = 'let platformList = [';
+                for($i = 0; $i < sizeof($platformList); $i++) {
+                    $outputString .= "'$platformList[$i]',";
+                }
+                $outputString = substr($outputString, 0, -1) . '];'; // Remove trailing comma
+                print($outputString);
+            ?>
+
+        </script>
     </head>
     
     <body>
         <div id="modalbg" style="display: none;">
             <div id="modal">
-                <b>Editing <i><span id="editModalGameName"></span></i></b>
                 <form id="editForm">
-                    <input type="text" id="editModalGameTitle" name="editModalGameTitle" style="width: 98%;" placeholder="Game title"></input><br />
+                    <b>Name:</b>
+                    <input type="text" id="editModalGameTitle" name="editModalGameTitle" style="width: 98%;" placeholder="Game title"></input><br /><br />
 
-                    <input type="radio" id="editModalUnreleased" name="editModalReleaseStatus" value="unreleased" checked><label for="editModalUnreleased">Release date:</label> <input type="date" id="editModalReleaseDate" name="editModalReleaseDate">
+                    <b>Release status:</b><br />
+                    <input type="radio" id="editModalUnreleased" name="editModalReleaseStatus" value="unreleased" checked><label for="editModalUnreleased">Release date set:</label> <input type="date" id="editModalReleaseDate" name="editModalReleaseDate">
 
                     <input type="radio" id="editModalTBA" name="editModalReleaseStatus" value="tba"><label for="editModalTBA">TBA</label>
 
@@ -289,14 +333,16 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                     <input type="radio" id="editModalCollection" name="editModalReleaseStatus" value="collection"><label for="editModalCollection">Collected</label>
 
-                    <br />
-                    Platform(s): 
-                        <input type="checkbox" id="editModalPS5" name="editModalPlatforms[]" value="PS5" /><label for="editModalPS5">PS5</label>
-                        <input type="checkbox" id="editModalPS4" name="editModalPlatforms[]" value="PS4" /><label for="editModalPS4">PS4</label>
-                        <input type="checkbox" id="editModalPSVR2" name="editModalPlatforms[]" value="PSVR2" /><label for="editModalPSVR2">PSVR2</label>
-                        <input type="checkbox" id="editModalPC" name="editModalPlatforms[]" value="PC" /><label for="editModalPC">PC</label>
-                        <input type="checkbox" id="editModalSwitch" name="editModalPlatforms[]" value="Switch" /><label for="editModalSwitch">Switch</label>
-                        <input type="checkbox" id="editModalAndroid" name="editModalPlatforms[]" value="Android" /><label for="editModalAndroid">Android</label>
+                    <br /><br />
+
+                    <b>Platforms:</b><br />
+
+                    <?php
+                        for($i = 0; $i < sizeof($platformList); $i++) {
+                            print("<input type='checkbox' id='editModalCheckbox$i' name='editModalPlatforms[]' value='$platformList[$i]' /><label for='editModalCheckbox$i'>$platformList[$i]</label>\n");
+                        }
+                    ?>
+                    <br /><input type='checkbox' id='editModalCheckboxOther' name='editModalCheckboxOther' /><label for='editModalCheckboxOther'>Other(s):</label> <input type="text" name="editModalOtherPlatforms" id="editModalOtherPlatforms" /> <small>(if more than one, separate with commas)</small>
                         
                     <br /><br />
                     <input type="submit" value="Save" style="width: 49%; height: 4em;" id="editModalSaveButton" /> 
@@ -315,28 +361,34 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             <div id="newEntryToggleDiv" onclick="toggleNewGameDiv();"><h3 id="formHeader">Add game</h3></div>
             <div id="newGameWrapper">
                 <form id="formArea" method="GET" action="./">
-                    <input type="text" id="gameTitle" name="gameTitle" style="width: 98%;" placeholder="Game title"></input><br />
+                    <b>Name:</b>
+                    <input type="text" id="gameTitle" name="gameTitle" style="width: 98%;" placeholder="Game title"></input><br /><br />
 
-                    <input type="radio" id="unreleased" name="releaseStatus" value="unreleased" checked><label for="unreleased">Release date:</label> <input type="date" id="releaseDate" name="releaseDate">
-                    
+                    <b>Release status:</b><br />
+                    <input type="radio" id="unreleased" name="releaseStatus" value="unreleased" checked><label for="unreleased">Release date set:</label> <input type="date" id="releaseDate" name="releaseDate">
+
                     <input type="radio" id="tba" name="releaseStatus" value="tba"><label for="tba">TBA</label>
 
                     <input type="radio" id="released" name="releaseStatus" value="released"><label for="released">Released</label>
-                    
+
                     <input type="radio" id="collection" name="releaseStatus" value="collection"><label for="collection">Collected</label>
 
-                    <br />
-                    Platform(s): 
-                        <input type="checkbox" id="ps5" name="platforms[]" value="PS5" /><label for="ps5">PS5</label>
-                        <input type="checkbox" id="ps4" name="platforms[]" value="PS4" /><label for="ps4">PS4</label>
-                        <input type="checkbox" id="psvr2" name="platforms[]" value="PSVR2" /><label for="psvr2">PSVR2</label>
-                        <input type="checkbox" id="pc" name="platforms[]" value="PC" /><label for="pc">PC</label>
-                        <input type="checkbox" id="switch" name="platforms[]" value="Switch" /><label for="switch">Switch</label>
-                        <input type="checkbox" id="android" name="platforms[]" value="Android" /><label for="android">Android</label>
+                    <br /><br />
+
+                    <b>Platforms:</b><br />
+
+                    <?php
+                        for($i = 0; $i < sizeof($platformList); $i++) {
+                            print("<input type='checkbox' id='platformCheckbox$i' name='platforms[]' value='$platformList[$i]' /><label for='platformCheckbox$i'>$platformList[$i]</label>\n");
+                        }
+                    ?>
+                    <br /><input type='checkbox' id='platformCheckboxOther' name='platformCheckboxOther' /><label for='platformCheckboxOther'>Other(s):</label> <input type="text" name="addGameOtherPlatforms" id="addGameOtherPlatforms" /> <small>(if more than one, separate with commas)</small>
                         
                     <br /><br />
                     <input type="submit" value="Save" style="width: 49%; height: 4em;" id="saveButton" /> 
                     <input type="button" value="Clear" style="width: 49%; height: 4em;" id="clearButton" onclick="this.parentNode.reset();" /> 
+
+                    
 
                     <input type="hidden" name="submitted" value="1" />
                 </form>
@@ -524,7 +576,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
         <div id="toastNotification"></div>
         
         <script>
-            //document.getElementById("newGameWrapper").style.display = "none";
+            document.getElementById("editModalOtherPlatforms").readOnly = true;
+            document.getElementById("addGameOtherPlatforms").readOnly = true;
 
             document.getElementById("unreleased").onchange = function() {
                 if(this.checked) {
@@ -547,6 +600,14 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             document.getElementById("collection").onchange = function() {
                 if(this.checked) {
                     document.getElementById("releaseDate").readOnly = true;
+                }
+            };
+
+            document.getElementById("platformCheckboxOther").onchange = function() {
+                if(this.checked) {
+                    document.getElementById("addGameOtherPlatforms").readOnly = false;
+                } else {
+                    document.getElementById("addGameOtherPlatforms").readOnly = true;
                 }
             };
             
@@ -574,6 +635,14 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 }
             };
 
+            document.getElementById("editModalCheckboxOther").onchange = function() {
+                if(this.checked) {
+                    document.getElementById("editModalOtherPlatforms").readOnly = false;
+                } else {
+                    document.getElementById("editModalOtherPlatforms").readOnly = true;
+                }
+            };
+
             function toggleNewGameDiv() {
                 if(document.getElementById("newGameWrapper").style.display == "none") {
                     document.getElementById("newGameWrapper").style.display = "block";
@@ -591,7 +660,6 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     releaseDate = row.firstElementChild.nextElementSibling.innerText.trim();
                 }
 
-                document.getElementById("editModalGameName").innerText = gameName;
                 document.getElementById("editModalGameTitle").value = gameName;
 
                 if(table == "unreleased") {
@@ -637,40 +705,33 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     platforms.push(platformSpans[i].innerText.trim());
                 }
 
-                if(platforms.includes("PS5")) {
-                    document.getElementById("editModalPS5").checked = true;
-                } else {
-                    document.getElementById("editModalPS5").checked = false;
+                // Determine which defined platforms to pre-check
+                let checkboxes = document.getElementsByName("editModalPlatforms[]");
+                for(let i = 0; i < checkboxes.length; i++) {
+                    if(platforms.includes(checkboxes[i].value)) {
+                        checkboxes[i].checked = true;
+                    } else {
+                        checkboxes[i].checked = false;
+                    }
                 }
 
-                if(platforms.includes("PS4")) {
-                    document.getElementById("editModalPS4").checked = true;
-                } else {
-                    document.getElementById("editModalPS4").checked = false;
+                // Determine if there are any platforms that don't have predefined checkboxes
+                document.getElementById("editModalCheckboxOther").checked = false;
+                document.getElementById("editModalOtherPlatforms").value = "";
+                let othersUsed = false;
+                for(let i = 0; i < platforms.length; i++) {
+                    if(platformList.includes(platforms[i]) == false) {
+                        console.log(platforms[i] + " doesn't seem to be in platformList");
+                        othersUsed = true;
+                        document.getElementById("editModalCheckboxOther").checked = true;
+                        document.getElementById("editModalOtherPlatforms").readOnly = false;
+                        document.getElementById("editModalOtherPlatforms").value += platforms[i] + ", "
+                    }
                 }
 
-                if(platforms.includes("PSVR2")) {
-                    document.getElementById("editModalPSVR2").checked = true;
-                } else {
-                    document.getElementById("editModalPSVR2").checked = false;
-                }
-
-                if(platforms.includes("PC")) {
-                    document.getElementById("editModalPC").checked = true;
-                } else {
-                    document.getElementById("editModalPC").checked = false;
-                }
-
-                if(platforms.includes("Switch")) {
-                    document.getElementById("editModalSwitch").checked = true;
-                } else {
-                    document.getElementById("editModalSwitch").checked = false;
-                }
-
-                if(platforms.includes("Android")) {
-                    document.getElementById("editModalAndroid").checked = true;
-                } else {
-                    document.getElementById("editModalAndroid").checked = false;
+                // Remove trailing comma and space
+                if(othersUsed) {
+                    document.getElementById("editModalOtherPlatforms").value = document.getElementById("editModalOtherPlatforms").value.slice(0, -2);
                 }
 
                 document.getElementById("editID").value = id;
