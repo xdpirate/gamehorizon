@@ -747,7 +747,6 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 let othersUsed = false;
                 for(let i = 0; i < platforms.length; i++) {
                     if(platformList.includes(platforms[i]) == false) {
-                        console.log(platforms[i] + " doesn't seem to be in platformList");
                         othersUsed = true;
                         document.getElementById("editModalCheckboxOther").checked = true;
                         document.getElementById("editModalOtherPlatforms").readOnly = false;

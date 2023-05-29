@@ -19,7 +19,7 @@ It works as intended. It doesn't look too hot on phones, owing to the horizontal
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
 ## Installation
-Clone/download this repository and put the gamehorizon folder in your web server document root (typically `/var/www/html`)
+Clone/download this repository and put the gamehorizon folder in your web server document root (typically `/var/www/html`).
 
 ### Database credentials
 
@@ -37,22 +37,18 @@ Replace the values of the variables to fit your database configuration.
 
 ### Database format
 
-You need to create a SQL database named `gamehorizon`.
-
-```
-CREATE DATABASE gamehorizon; USE gamehorizon;
-```
-
-You need to create four tables:
+You need to create a SQL database named `gamehorizon`, containing four tables:
 
 * `gamesUnreleased`
 * `gamesTBA`
 * `gamesReleased`
 * `gamesCollected`
 
-Run the following on your SQL server:
+Run the following commands on your SQL server:
 
 ```
+CREATE DATABASE gamehorizon; USE gamehorizon;
+
 CREATE TABLE `gamesUnreleased` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `GameName` varchar(255) NOT NULL,
@@ -71,3 +67,23 @@ CREATE TABLE `gamesReleased` (
 CREATE TABLE `gamesTBA` LIKE `gamesReleased`;
 CREATE TABLE `gamesCollected` LIKE `gamesReleased`;
 ```
+
+## License
+
+GameHorizon is free and open source software, licensed under the GNU General Public License v3.0.
+
+    GameHorizon -  Simple self-hosted tracker for upcoming and collected games
+    Copyright ©️ 2023 xdpirate
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
