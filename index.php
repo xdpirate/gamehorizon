@@ -1,7 +1,24 @@
 <?php
+// GameHorizon -  Simple self-hosted tracker for upcoming and collected games
+// Copyright ©️ 2023 xdpirate
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set("display_errors", 1);
 require("./credentials.php");
+
 
 $platformList = ["PS5", "PS4", "XSX", "XB1", "Switch", "PC", "Android", "PSVR2", "iOS"];
 sort($platformList);
@@ -165,7 +182,6 @@ $deleteImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
 $searchImage = "data:image/png;base64,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";
 ?>
-
 <!DOCTYPE html>
 
 <html>
@@ -290,6 +306,14 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
             #tbaWrapper, #releasedWrapper, #collectionWrapper {
                 display: none;
+            }
+
+            #footer {
+                width: 98%;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                font-size: smaller;
+                text-align: center;
             }
 
             /* Phone styles */
@@ -571,10 +595,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     </table>
                 </div>
             </div>
+
+            <div id="footer">GameHorizon &copy; 2023 xdpirate. Licensed under the <a href="https://github.com/xdpirate/gamehorizon/blob/main/LICENSE.md" target="_blank">GNU General Public License v3.0</a>. <a href="https://github.com/xdpirate/gamehorizon" target="_blank">Github</a></div>
         </div>
 
         <div id="toastNotification"></div>
-        
+
         <script>
             document.getElementById("editModalOtherPlatforms").readOnly = true;
             document.getElementById("addGameOtherPlatforms").readOnly = true;
