@@ -12,7 +12,7 @@ GameHorizon is developed and tested using Apache2 and MySQL, but other web serve
 
 ## Usability
 
-It works as intended. It doesn't look too hot on phones, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. The platform list need to be expanded for use by others than myself, as I've only added the ones I currently play on.
+It works as intended. It doesn't look too hot on phones, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. 
 
 ## Security
 
