@@ -74,28 +74,7 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
         die("Malformed request.");
     }
 
-    $platforms = [];
-
-    if(isset($_GET["editModalPS5"]) && $_GET["editModalPS5"] == "on") {
-        array_push($platforms, "PS5");
-    }
-    if(isset($_GET["editModalPS4"]) && $_GET["editModalPS4"] == "on") {
-        array_push($platforms, "PS4");
-    }
-    if(isset($_GET["editModalPSVR2"]) && $_GET["editModalPSVR2"] == "on") {
-        array_push($platforms, "PSVR2");
-    }
-    if(isset($_GET["editModalPC"]) && $_GET["editModalPC"] == "on") {
-        array_push($platforms, "PC");
-    }
-    if(isset($_GET["editModalSwitch"]) && $_GET["editModalSwitch"] == "on") {
-        array_push($platforms, "Switch");
-    }
-    if(isset($_GET["editModalAndroid"]) && $_GET["editModalAndroid"] == "on") {
-        array_push($platforms, "Android");
-    }
-
-    $platforms = mysqli_real_escape_string($link, implode("|", $platforms));
+    $platforms = mysqli_real_escape_string($link, implode("|", $_GET['editModalPlatforms']));
 
     if($oldTable == $newTable) {
         // Same tables, update record
@@ -122,28 +101,8 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
     $gameName = mysqli_real_escape_string($link, trim($_GET["gameTitle"]));
     $releaseStatus = $_GET["releaseStatus"];
     $releaseDate = "";
-    $platforms = [];
 
-    if(isset($_GET["ps5"]) && $_GET["ps5"] == "on") {
-        array_push($platforms, "PS5");
-    }
-    if(isset($_GET["ps4"]) && $_GET["ps4"] == "on") {
-        array_push($platforms, "PS4");
-    }
-    if(isset($_GET["psvr2"]) && $_GET["psvr2"] == "on") {
-        array_push($platforms, "PSVR2");
-    }
-    if(isset($_GET["pc"]) && $_GET["pc"] == "on") {
-        array_push($platforms, "PC");
-    }
-    if(isset($_GET["switch"]) && $_GET["switch"] == "on") {
-        array_push($platforms, "Switch");
-    }
-    if(isset($_GET["android"]) && $_GET["android"] == "on") {
-        array_push($platforms, "Android");
-    }
-
-    $platforms = mysqli_real_escape_string($link, implode("|", $platforms));
+    $platforms = mysqli_real_escape_string($link, implode("|", $_GET['platforms']));
 
     if($releaseStatus == "unreleased") {
         $releaseDate = mysqli_real_escape_string($link, $_GET["releaseDate"]);
@@ -332,12 +291,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                     <br />
                     Platform(s): 
-                        <input type="checkbox" id="editModalPS5" name="editModalPS5" /><label for="editModalPS5">PS5</label>
-                        <input type="checkbox" id="editModalPS4" name="editModalPS4" /><label for="editModalPS4">PS4</label>
-                        <input type="checkbox" id="editModalPSVR2" name="editModalPSVR2" /><label for="editModalPSVR2">PSVR2</label>
-                        <input type="checkbox" id="editModalPC" name="editModalPC" /><label for="editModalPC">PC</label>
-                        <input type="checkbox" id="editModalSwitch" name="editModalSwitch" /><label for="editModalSwitch">Switch</label>
-                        <input type="checkbox" id="editModalAndroid" name="editModalAndroid" /><label for="editModalAndroid">Android</label>
+                        <input type="checkbox" id="editModalPS5" name="editModalPlatforms[]" value="PS5" /><label for="editModalPS5">PS5</label>
+                        <input type="checkbox" id="editModalPS4" name="editModalPlatforms[]" value="PS4" /><label for="editModalPS4">PS4</label>
+                        <input type="checkbox" id="editModalPSVR2" name="editModalPlatforms[]" value="PSVR2" /><label for="editModalPSVR2">PSVR2</label>
+                        <input type="checkbox" id="editModalPC" name="editModalPlatforms[]" value="PC" /><label for="editModalPC">PC</label>
+                        <input type="checkbox" id="editModalSwitch" name="editModalPlatforms[]" value="Switch" /><label for="editModalSwitch">Switch</label>
+                        <input type="checkbox" id="editModalAndroid" name="editModalPlatforms[]" value="Android" /><label for="editModalAndroid">Android</label>
                         
                     <br /><br />
                     <input type="submit" value="Save" style="width: 49%; height: 4em;" id="editModalSaveButton" /> 
@@ -368,12 +327,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
                     <br />
                     Platform(s): 
-                        <input type="checkbox" id="ps5" name="ps5" /><label for="ps5">PS5</label>
-                        <input type="checkbox" id="ps4" name="ps4" /><label for="ps4">PS4</label>
-                        <input type="checkbox" id="psvr2" name="psvr2" /><label for="psvr2">PSVR2</label>
-                        <input type="checkbox" id="pc" name="pc" /><label for="pc">PC</label>
-                        <input type="checkbox" id="switch" name="switch" /><label for="switch">Switch</label>
-                        <input type="checkbox" id="android" name="android" /><label for="android">Android</label>
+                        <input type="checkbox" id="ps5" name="platforms[]" value="PS5" /><label for="ps5">PS5</label>
+                        <input type="checkbox" id="ps4" name="platforms[]" value="PS4" /><label for="ps4">PS4</label>
+                        <input type="checkbox" id="psvr2" name="platforms[]" value="PSVR2" /><label for="psvr2">PSVR2</label>
+                        <input type="checkbox" id="pc" name="platforms[]" value="PC" /><label for="pc">PC</label>
+                        <input type="checkbox" id="switch" name="platforms[]" value="Switch" /><label for="switch">Switch</label>
+                        <input type="checkbox" id="android" name="platforms[]" value="Android" /><label for="android">Android</label>
                         
                     <br /><br />
                     <input type="submit" value="Save" style="width: 49%; height: 4em;" id="saveButton" /> 
