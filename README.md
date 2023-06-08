@@ -33,40 +33,7 @@ $mysqlPassword = "your-sql-password";
 ?>
 ```
 
-Replace the values of the variables to fit your database configuration.
-
-### Database format
-
-You need to create a SQL database named `gamehorizon`, containing four tables:
-
-* `gamesUnreleased`
-* `gamesTBA`
-* `gamesReleased`
-* `gamesCollected`
-
-Run the following commands on your SQL server:
-
-```
-CREATE DATABASE gamehorizon; USE gamehorizon;
-
-CREATE TABLE `gamesUnreleased` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `GameName` varchar(255) NOT NULL,
-  `ReleaseDate` varchar(255) NOT NULL,
-  `Platforms` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `gamesReleased` (
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `GameName` varchar(255) NOT NULL,
-  `Platforms` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `gamesTBA` LIKE `gamesReleased`;
-CREATE TABLE `gamesCollected` LIKE `gamesReleased`;
-```
+Replace the values of the variables to fit your database configuration. GameHorizon will setup the database structure by itself.
 
 ## License
 

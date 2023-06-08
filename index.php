@@ -19,7 +19,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set("display_errors", 1);
 require("./credentials.php");
 
-
 $platformList = ["PS5", "PS4", "XSX", "XB1", "Switch", "PC", "Android", "PSVR2", "iOS"];
 sort($platformList);
 
@@ -35,10 +34,33 @@ function mysqli_result($res,$row=0,$col=0){
     return false;
 }
 
-$link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPassword, "gamehorizon");
+$link = mysqli_connect($mysqlHost, $mysqlUser, $mysqlPassword);
 if(!$link) {
     die("Couldn't connect: " . mysqli_error($link));
 }
+
+// Setup DB if it's the first run
+mysqli_query($link, "CREATE DATABASE IF NOT EXISTS gamehorizon");
+mysqli_select_db($link, "gamehorizon");
+mysqli_query($link, "
+    CREATE TABLE IF NOT EXISTS gamesUnreleased (
+        ID int NOT NULL AUTO_INCREMENT,
+        GameName varchar(255) NOT NULL,
+        ReleaseDate varchar(255) NOT NULL,
+        Platforms varchar(255) NOT NULL,
+        PRIMARY KEY (ID)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+
+mysqli_query($link, "
+    CREATE TABLE IF NOT EXISTS gamesReleased (
+        ID int NOT NULL AUTO_INCREMENT,
+        GameName varchar(255) NOT NULL,
+        Platforms varchar(255) NOT NULL,
+        PRIMARY KEY (ID)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+
+mysqli_query($link, "CREATE TABLE IF NOT EXISTS gamesTBA LIKE gamesReleased;");
+mysqli_query($link, "CREATE TABLE IF NOT EXISTS gamesCollected LIKE gamesReleased;");
 
 if(isset($_GET['delete']) && isset($_GET['from'])) {
     $ID = mysqli_real_escape_string($link, $_GET['delete']);
