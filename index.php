@@ -73,13 +73,14 @@ if(isset($_GET['delete']) && isset($_GET['from'])) {
         $table = "gamesReleased";
     } elseif($_GET['from'] == "collection") {
         $table = "gamesCollected";
+    } else {
+        die("Malformed request.");
     }
 
     mysqli_query($link, "DELETE FROM $table WHERE ID=$ID");
-
     mysqli_close($link);
 
-    header("Location: ./");
+    header("Location: ./?t=$_GET[from]");
 }
 
 if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
@@ -101,6 +102,8 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
     } else {
         die("Malformed request.");
     }
+
+    $targetTable = $newTable;
 
     if($newTable == "unreleased") {
         $newTable = "gamesUnreleased";
@@ -149,15 +152,13 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
         mysqli_query($link, "DELETE FROM $oldTable WHERE ID=$gameID");
     }
 
-    header("Location: ./");
+    header("Location: ./?t=$targetTable");
 }
 
 if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
     $gameName = mysqli_real_escape_string($link, trim($_GET["gameTitle"]));
     $releaseStatus = $_GET["releaseStatus"];
     $releaseDate = "";
-
-    //$platforms = mysqli_real_escape_string($link, implode("|", $_GET['platforms']));
 
     $platforms = [];
     
@@ -188,7 +189,7 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
 
     mysqli_close($link);
 
-    header("Location: ./");
+    header("Location: ./?t=$releaseStatus");
 }
 
 $resGamesReleased = mysqli_query($link, "SELECT * FROM gamesReleased ORDER BY GameName ASC;");
@@ -442,10 +443,10 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
            
             <div id="savedGamesAreaWrapper">
                 <div id="tabs">
-                        <span id="unreleasedTab" class="tab activetab" onclick="changeTab(this, 'unreleased');">Unreleased</span>
-                        <span id="tbaTab" class="tab" onclick="changeTab(this, 'tba');">Announced</span>
-                        <span id="releasedTab" class="tab" onclick="changeTab(this, 'released');">Released</span>
-                        <span id="collectionTab" class="tab" onclick="changeTab(this, 'collection');">Collected</span>
+                        <span id="unreleasedTab" class="tab activetab" onclick="changeTab('unreleased');">Unreleased</span>
+                        <span id="tbaTab" class="tab" onclick="changeTab('tba');">Announced</span>
+                        <span id="releasedTab" class="tab" onclick="changeTab('released');">Released</span>
+                        <span id="collectionTab" class="tab" onclick="changeTab('collected');">Collected</span>
                 </div>
 
                 <div class="tableWrapper" id="unreleasedWrapper">
@@ -787,41 +788,70 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 document.getElementById("modalbg").style.display = "block";
             }
 
-            function changeTab(tabElement, tabName) {
-                document.getElementById("unreleasedTab").classList.remove("activetab");
-                document.getElementById("tbaTab").classList.remove("activetab");
-                document.getElementById("releasedTab").classList.remove("activetab");
-                document.getElementById("collectionTab").classList.remove("activetab");
-                
-                tabElement.classList.add("activetab");
+            function changeTab(tabName) {
+                let unreleasedTab = document.getElementById("unreleasedTab");
+                let tbaTab = document.getElementById("tbaTab");
+                let releasedTab = document.getElementById("releasedTab");
+                let collectionTab = document.getElementById("collectionTab");
+                let activeTab;
 
-                if(tabElement.id == "unreleasedTab") {
+                unreleasedTab.classList.remove("activetab");
+                tbaTab.classList.remove("activetab");
+                releasedTab.classList.remove("activetab");
+                collectionTab.classList.remove("activetab");
+
+                if(tabName == "unreleased") {
+                    activeTab = unreleasedTab;
+                } else if(tabName == "tba") {
+                    activeTab = tbaTab;
+                } else if(tabName == "released") {
+                    activeTab = releasedTab;
+                } else if(tabName == "collected") {
+                    activeTab = collectionTab;
+                } else if(tabName == "collection") {
+                    activeTab = collectionTab;
+                    tabName = "collected";
+                }
+                
+                activeTab.classList.add("activetab");
+
+                if(activeTab.id == "unreleasedTab") {
                     document.getElementById("unreleasedWrapper").style.display = "block";
                     document.getElementById("tbaWrapper").style.display = "none";
                     document.getElementById("releasedWrapper").style.display = "none";
                     document.getElementById("collectionWrapper").style.display = "none";
-                } else if(tabElement.id == "tbaTab") {
+                } else if(activeTab.id == "tbaTab") {
                     document.getElementById("unreleasedWrapper").style.display = "none";
                     document.getElementById("tbaWrapper").style.display = "block";
                     document.getElementById("releasedWrapper").style.display = "none";
                     document.getElementById("collectionWrapper").style.display = "none";
-                } else if(tabElement.id == "releasedTab") {
+                } else if(activeTab.id == "releasedTab") {
                     document.getElementById("unreleasedWrapper").style.display = "none";
                     document.getElementById("tbaWrapper").style.display = "none";
                     document.getElementById("releasedWrapper").style.display = "block";
                     document.getElementById("collectionWrapper").style.display = "none";
-                } else if(tabElement.id == "collectionTab") {
+                } else if(activeTab.id == "collectionTab") {
                     document.getElementById("unreleasedWrapper").style.display = "none";
                     document.getElementById("tbaWrapper").style.display = "none";
                     document.getElementById("releasedWrapper").style.display = "none";
                     document.getElementById("collectionWrapper").style.display = "block";
                 }
+
+                const url = new URL(window.location);
+                url.searchParams.set("t", tabName);
+                window.history.replaceState({}, "", url);
             }
 
             function deleteGame(gameID, table) {
                 if(confirm("Are you sure you want to delete this game?\nThis cannot be undone!")) {
                     window.location.replace(`./?delete=${gameID}&from=${table}`);
                 }
+            }
+
+            let params = new URLSearchParams(window.location.search);
+            let switchTable = params.get("t");
+            if(switchTable) {
+                changeTab(switchTable);
             }
         </script>
     </body>
