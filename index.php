@@ -264,6 +264,11 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 cursor: pointer;
             }
 
+            .gameReleased {
+                color: #0f0;
+                font-weight: bold;
+            }
+
             span.activetab {
                 font-weight: bold;
                 text-decoration: underline;
@@ -468,24 +473,30 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                     $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
 
                                     $remaining = ceil((strtotime($releaseDate) - time())/60/60/24);
+                                    $remainingStr = "";
 
                                     if($remaining == 2) {
-                                        $remaining = "Releases the day after tomorrow";
+                                        $remainingStr = "Releases the day after tomorrow";
                                     } elseif($remaining == 1) {
-                                        $remaining = "Releases tomorrow";
+                                        $remainingStr = "Releases tomorrow";
                                     } elseif($remaining == 0) {
-                                        $remaining = "Releases today";
+                                        $remainingStr = "Releases today";
                                     } elseif($remaining == -1) {
-                                        $remaining = "Released yesterday";
+                                        $remainingStr = "Released yesterday";
                                     } elseif($remaining == -2) {
-                                        $remaining = "Released the day before yesterday";
+                                        $remainingStr = "Released the day before yesterday";
                                     } elseif($remaining > 0) {
-                                        $remaining = "Releases in $remaining days";
+                                        $remremainingStraremainingStrining = "Releases in $remaining days";
                                     } elseif($remaining < -2) {
-                                        $remaining = "Released more than 2 days ago";
+                                        $remainingStr = "Released";
                                     }
 
-                                    $outputstring = "<tr><td>$gameTitle</td><td><span title='$remaining'>$releaseDate</span></td><td>";
+                                    $class = "";
+                                    if($remaining < 1) {
+                                        $class = "gameReleased";
+                                    }
+
+                                    $outputstring = "<tr><td>$gameTitle</td><td><span title='$remainingStr' class='$class'>$releaseDate</span></td><td>";
 
                                     if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                         for($j = 0; $j < sizeof($platforms); $j++) {
