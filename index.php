@@ -486,7 +486,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                     } elseif($remaining == -2) {
                                         $remainingStr = "Released the day before yesterday";
                                     } elseif($remaining > 0) {
-                                        $remremainingStraremainingStrining = "Releases in $remaining days";
+                                        $remainingStr = "Releases in $remaining days";
                                     } elseif($remaining < -2) {
                                         $remainingStr = "Released";
                                     }
