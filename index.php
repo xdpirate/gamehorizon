@@ -152,7 +152,9 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
         mysqli_query($link, "DELETE FROM $oldTable WHERE ID=$gameID");
     }
 
-    header("Location: ./?t=$targetTable");
+    $fragment = strtolower(substr($newTable, 5, 1)) . strval($gameID);
+
+    header("Location: ./?t=$targetTable#$fragment");
 }
 
 if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
@@ -176,6 +178,7 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
 
     $platforms = mysqli_real_escape_string($link, implode("|", $platforms));
 
+
     if($releaseStatus == "unreleased") {
         $releaseDate = mysqli_real_escape_string($link, $_GET["releaseDate"]);
         mysqli_query($link, "INSERT INTO gamesUnreleased (GameName,ReleaseDate,Platforms) VALUES ('$gameName','$releaseDate','$platforms')");
@@ -187,9 +190,11 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
         mysqli_query($link, "INSERT INTO gamesCollected (GameName,Platforms) VALUES ('$gameName','$platforms')");
     }
 
+    $gameID = mysqli_insert_id($link);
     mysqli_close($link);
 
-    header("Location: ./?t=$releaseStatus");
+    $fragment = strtolower(substr($releaseStatus, 0, 1)) . strval($gameID);
+    header("Location: ./?t=$releaseStatus#$fragment");
 }
 
 $resGamesReleased = mysqli_query($link, "SELECT * FROM gamesReleased ORDER BY GameName ASC;");
@@ -496,7 +501,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         $class = "gameReleased";
                                     }
 
-                                    $outputstring = "<tr><td>$gameTitle</td><td><span title='$remainingStr' class='$class'>$releaseDate</span></td><td>";
+                                    $outputstring = "<tr id='u$gameID'><td>$gameTitle</td><td><span title='$remainingStr' class='$class'>$releaseDate</span></td><td>";
 
                                     if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                         for($j = 0; $j < sizeof($platforms); $j++) {
@@ -534,7 +539,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                     $releaseDate = mysqli_result($resGamesTBA,$i,"ReleaseDate");
                                     $platforms = explode("|", mysqli_result($resGamesTBA,$i,"Platforms"));
 
-                                    $outputstring = "<tr><td>$gameTitle</td><td>";
+                                    $outputstring = "<tr id='t$gameID'><td>$gameTitle</td><td>";
 
                                     if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                         for($j = 0; $j < sizeof($platforms); $j++) {
@@ -571,7 +576,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                     $gameTitle = htmlentities(mysqli_result($resGamesReleased,$i,"GameName"));
                                     $platforms = explode("|", mysqli_result($resGamesReleased,$i,"Platforms"));
 
-                                    $outputstring = "<tr><td>$gameTitle</td><td>";
+                                    $outputstring = "<tr id='r$gameID'><td>$gameTitle</td><td>";
 
                                     if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                         for($j = 0; $j < sizeof($platforms); $j++) {
@@ -608,7 +613,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                     $gameTitle = htmlentities(mysqli_result($resGamesCollected,$i,"GameName"));
                                     $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
 
-                                    $outputstring = "<tr><td>$gameTitle</td><td>";
+                                    $outputstring = "<tr id='c$gameID'><td>$gameTitle</td><td>";
 
                                     if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                         for($j = 0; $j < sizeof($platforms); $j++) {
