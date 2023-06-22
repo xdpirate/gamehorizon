@@ -473,7 +473,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                 $numrows = mysqli_num_rows($resGamesUnreleased); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesUnreleased,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesUnreleased,$i,"GameName"));
+                                    $gameTitle = mysqli_result($resGamesUnreleased,$i,"GameName");
+                                    $bareGameTitle = $gameTitle;
+                                    $gameTitle = htmlentities($gameTitle);
                                     $releaseDate = mysqli_result($resGamesUnreleased,$i,"ReleaseDate");
                                     $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
 
@@ -509,7 +511,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
 
                                     $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
@@ -535,7 +537,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                 $numrows = mysqli_num_rows($resGamesTBA); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesTBA,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesTBA,$i,"GameName"));
+                                    $gameTitle = mysqli_result($resGamesTBA,$i,"GameName");
+                                    $bareGameTitle = $gameTitle;
+                                    $gameTitle = htmlentities($gameTitle);
                                     $releaseDate = mysqli_result($resGamesTBA,$i,"ReleaseDate");
                                     $platforms = explode("|", mysqli_result($resGamesTBA,$i,"Platforms"));
 
@@ -547,7 +551,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
 
                                     $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
@@ -573,7 +577,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                 $numrows = mysqli_num_rows($resGamesReleased); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesReleased,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesReleased,$i,"GameName"));
+                                    $gameTitle = mysqli_result($resGamesReleased,$i,"GameName");
+                                    $bareGameTitle = $gameTitle;
+                                    $gameTitle = htmlentities($gameTitle);
                                     $platforms = explode("|", mysqli_result($resGamesReleased,$i,"Platforms"));
 
                                     $outputstring = "<tr id='r$gameID'><td>$gameTitle</td><td>";
@@ -584,7 +590,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
 
                                     $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
@@ -610,7 +616,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                 $numrows = mysqli_num_rows($resGamesCollected); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesCollected,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesCollected,$i,"GameName"));
+                                    $gameTitle = mysqli_result($resGamesCollected,$i,"GameName");
+                                    $bareGameTitle = $gameTitle;
+                                    $gameTitle = htmlentities($gameTitle);
                                     $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
 
                                     $outputstring = "<tr id='c$gameID'><td>$gameTitle</td><td>";
@@ -621,7 +629,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($gameTitle);
+                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
 
                                     $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
