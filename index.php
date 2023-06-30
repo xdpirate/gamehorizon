@@ -432,7 +432,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             let currentTheme = getCookie("ghTheme");
 
             if(!themes[currentTheme]) {
-                currentTheme = "midnight";
+                currentTheme = "nord";
             }
 
             applyTheme(currentTheme);
