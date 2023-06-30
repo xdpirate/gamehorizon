@@ -217,146 +217,222 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
         <title>GameHorizon</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            html,body {
-                font-family: Arial, Helvetica, sans-serif;
-            }
-
-            #everything {
-                width: 50%;
-                margin: auto;
-            }
-
-            #modal {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 600px;
-                height: 260px;
-                background-color: white;
-                padding: 20px;
-                border: 1px solid black;
-                border-radius: 20px;
-                box-shadow: 10px 10px 5px #888888;
-            }
-
-            #modalbg {
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 1040;
-                width: 100vw;
-                height: 100vh;
-                background-color: rgba(0, 0, 0, 0.4);
-                backdrop-filter: blur(15px);
-            }
-
-            #newGameWrapper {
-                border: 1px solid black;
-                border-radius: 10px;
-                padding: 10px;
-                margin-bottom: 20px;
-            }
-
-            h1 {
-                margin: 0;
-            }
-
-            span.tab {
-                margin-left: 5px;
-                margin-right: 5px;
-                cursor: pointer;
-            }
-
-            .gameReleased {
-                color: #0f0;
-                font-weight: bold;
-            }
-
-            span.activetab {
-                font-weight: bold;
-                text-decoration: underline;
-            }
-
-            h1 > a {
-                text-decoration: none;
-                color: #000;
-            }
-
-            table {
-                width: 100%;
-            }
-
-            span.platformLabel {
-                border: 1px solid blue;
-                background-color: #000099;
-                border-radius: 10px;
-                color: #FFF;
-                font-weight: bold;
-                margin-left: 2px;
-                margin-right: 2px;
-                padding: 3px;
-            }
-
-            tr:nth-child(even) {
-                background-color: #ccc;
-            }
-
-            #newEntryToggleDiv {
-                text-decoration: underline;
-                cursor: pointer;
-            }
-
-            .editButton, .deleteButton {
-                cursor: pointer;
-            }
-
-            .tableFooter {
-                width: 100%;
-                text-align: right;
-            }
-
-            th {
-                text-align: left;
-            }
-
-            td,th {
-                padding: 5px;
-            }
-
-            tr:nth-child(even) {
-                background: #d2e2f9;
-            }
-
-            tr:nth-child(odd) {
-                background: #a5c6f3;
-            }
-
-            th {
-                background-color: #d2e2f9;
-            }
-
-            #tbaWrapper, #releasedWrapper, #collectionWrapper {
-                display: none;
-            }
-
-            #footer {
-                width: 98%;
-                margin-top: 20px;
-                margin-bottom: 20px;
-                font-size: smaller;
-                text-align: center;
-            }
-
-            /* Phone styles */
-            @media all and (max-width: 1000px) {
-                #everything {
-                    width: 100%;
-                    margin: auto;
+        <style></style>
+        <script>
+            function getCookie(cname) {
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for(let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
                 }
+                return "";
             }
-        </style>
+
+            let themes = {
+                "daylight": {
+                    background: "white",
+                    foreground: "black",
+                    platformbg: "#00d4ff",
+                    oddrow: "#a5c6f3",
+                    evenrow: "#d2e2f9",
+                    released: "#0a0",
+                    link: "#000"
+                },
+                "midnight": {
+                    background: "black",
+                    foreground: "white",
+                    platformbg: "#00a",
+                    oddrow: "#262a2b",
+                    evenrow: "#004daa",
+                    released: "#0f0",
+                    link: "white"
+                },
+                "nord": {
+                    background: "#2e3440",
+                    foreground: "white",
+                    platformbg: "#3b4252",
+                    oddrow: "#434c5e",
+                    evenrow: "#4c566a",
+                    released: "#0f0",
+                    link: "white"
+                }
+            };
+
+            function saveTheme() {
+                let d = new Date();
+                d.setTime(d.getTime() + (3650*24*60*60*1000));
+                let expires = "expires="+ d.toUTCString();
+                document.cookie = "ghTheme=" + currentTheme + ";" + expires + ";SameSite=Lax;path=/";
+            }
+
+            function applyTheme(themeName) {
+                currentTheme = themeName;
+                document.getElementsByTagName('style')[0].innerHTML = `
+                    html,body {
+                        font-family: Arial, Helvetica, sans-serif;
+                        background-color: ${themes[themeName].background};
+                        color: ${themes[themeName].foreground};
+                    }
+
+                    #everything {
+                        width: 50%;
+                        margin: auto;
+                    }
+
+                    #modal {
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 600px;
+                        height: 260px;
+                        background-color: ${themes[themeName].background};
+                        padding: 20px;
+                        border: 1px solid ${themes[themeName].foreground};
+                        border-radius: 20px;
+                        box-shadow: 10px 10px 5px #888888;
+                    }
+
+                    #modalbg {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        z-index: 1040;
+                        width: 100vw;
+                        height: 100vh;
+                        background-color: rgba(0, 0, 0, 0.4);
+                        backdrop-filter: blur(15px);
+                    }
+
+                    #newGameWrapper, #optionsWrapper {
+                        border: 1px solid ${themes[themeName].foreground};
+                        border-radius: 10px;
+                        padding: 10px;
+                        margin-bottom: 20px;
+                    }
+
+                    h1 {
+                        margin: 0;
+                    }
+
+                    input {
+                        background-color: ${themes[themeName].background};
+                        color: ${themes[themeName].foreground};
+                    }
+
+                    span.tab {
+                        margin-left: 5px;
+                        margin-right: 5px;
+                        cursor: pointer;
+                    }
+
+                    .gameReleased {
+                        color: ${themes[themeName].released};
+                        font-weight: bold;
+                    }
+
+                    span.activetab {
+                        font-weight: bold;
+                        text-decoration: underline;
+                    }
+
+                    h1 > a {
+                        text-decoration: none;
+                        color: ${themes[themeName].link};
+                    }
+
+                    table {
+                        width: 100%;
+                    }
+
+                    span.platformLabel {
+                        border: 1px solid ${themes[themeName].platformbg};
+                        background-color: ${themes[themeName].platformbg};
+                        border-radius: 10px;
+                        color: ${themes[themeName].foreground};
+                        font-weight: bold;
+                        margin-left: 2px;
+                        margin-right: 2px;
+                        padding: 3px;
+                    }
+
+                    tr:nth-child(odd) {
+                        background: ${themes[themeName].oddrow};
+                    }
+
+                    tr:nth-child(even) {
+                        background: ${themes[themeName].evenrow};
+                    }
+
+                    #newEntryToggleDiv, #optionsToggleDiv {
+                        text-decoration: underline;
+                        cursor: pointer;
+                    }
+
+                    .editButton, .deleteButton {
+                        cursor: pointer;
+                    }
+
+                    .tableFooter {
+                        width: 100%;
+                        text-align: right;
+                    }
+
+                    #formHeader, #optionsHeader {
+                        font-size: 22px;
+                        font-weight: bold;
+                        margin-right: 10px;
+                    }
+
+                    th {
+                        text-align: left;
+                    }
+
+                    td,th {
+                        padding: 5px;
+                    }
+
+                    th {
+                        background-color: ${themes[themeName].evenrow};
+                    }
+
+                    #tbaWrapper, #releasedWrapper, #collectionWrapper {
+                        display: none;
+                    }
+
+                    #footer {
+                        width: 98%;
+                        margin-top: 20px;
+                        margin-bottom: 20px;
+                        font-size: smaller;
+                        text-align: center;
+                    }
+
+                    /* Phone styles */
+                    @media all and (max-width: 1000px) {
+                        #everything {
+                            width: 100%;
+                            margin: auto;
+                        }
+                    }
+                </style>`;
+            }
+
+            let currentTheme = getCookie("ghTheme");
+
+            if(!themes[currentTheme]) {
+                currentTheme = "midnight";
+            }
+
+            applyTheme(currentTheme);
+        </script>
 
         <link href="./favicon.png" rel="icon" type="image/png" />
 
@@ -370,7 +446,6 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 $outputString = substr($outputString, 0, -1) . '];'; // Remove trailing comma
                 print($outputString);
             ?>
-
         </script>
     </head>
     
@@ -415,7 +490,11 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             <h1><a href="./"><img src="./favicon.png" width="32" height="32" /> GameHorizon</a></h1>
             <small><i>"This game sucks"</i> - AVGN</small>
 
-            <div id="newEntryToggleDiv" onclick="toggleNewGameDiv();"><h3 id="formHeader">Add game</h3></div>
+            <div style="margin-top: 20px; margin-bottom: 20px;">
+                <span id="newEntryToggleDiv" onclick="toggleNewGameDiv();"><span id="formHeader">Add game</span></span>
+                <span id="optionsToggleDiv" onclick="toggleOptionsDiv();"><span id="optionsHeader">Options</span></span>
+            </div>
+
             <div id="newGameWrapper">
                 <form id="formArea" method="GET" action="./">
                     <b>Name:</b>
@@ -451,6 +530,16 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 </form>
             </div>
            
+            <div id="optionsWrapper" style="display:none;">
+                <script>
+                    document.write(`
+                        <b>Theme:</b><br />
+                        <input type="radio" name="themeRadio" onchange="applyTheme('daylight');saveTheme();" id="themeDaylight"${currentTheme == "daylight" ? " checked" : ""}><label for="themeDaylight">Daylight</label><br />
+                        <input type="radio" name="themeRadio" onchange="applyTheme('midnight');saveTheme();" id="themeMidnight"${currentTheme == "midnight" ? " checked" : ""}><label for="themeMidnight">Midnight</label><br />
+                        <input type="radio" name="themeRadio" onchange="applyTheme('nord');saveTheme();" id="themeNord"${currentTheme == "nord" ? " checked" : ""}><label for="themeNord">Nord</label><br />`);
+                </script>
+            </div>
+
             <div id="savedGamesAreaWrapper">
                 <div id="tabs">
                         <span id="unreleasedTab" class="tab activetab" onclick="changeTab('unreleased');">Unreleased</span>
@@ -718,9 +807,19 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
             function toggleNewGameDiv() {
                 if(document.getElementById("newGameWrapper").style.display == "none") {
+                    document.getElementById("optionsWrapper").style.display = "none";
                     document.getElementById("newGameWrapper").style.display = "block";
                 } else {
                     document.getElementById("newGameWrapper").style.display = "none";
+                }
+            }
+            
+            function toggleOptionsDiv() {
+                if(document.getElementById("optionsWrapper").style.display == "none") {
+                    document.getElementById("newGameWrapper").style.display = "none";
+                    document.getElementById("optionsWrapper").style.display = "block";
+                } else {
+                    document.getElementById("optionsWrapper").style.display = "none";
                 }
             }
 
