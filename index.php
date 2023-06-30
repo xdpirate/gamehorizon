@@ -348,6 +348,10 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                         color: ${themes[themeName].link};
                     }
 
+                    a {
+                        color: ${themes[themeName].link};
+                    }
+
                     table {
                         width: 100%;
                     }
