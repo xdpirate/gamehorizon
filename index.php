@@ -265,11 +265,18 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 }
             };
 
-            function saveTheme() {
+            function saveSettings() {
+                if(document.getElementById("hideAddGameCheckbox").checked) {
+                    hideAddGame = 1;
+                } else {
+                    hideAddGame = 0;
+                }
+
                 let d = new Date();
                 d.setTime(d.getTime() + (3650*24*60*60*1000));
                 let expires = "expires="+ d.toUTCString();
                 document.cookie = "ghTheme=" + currentTheme + ";" + expires + ";SameSite=Lax;path=/";
+                document.cookie = "hideAddGame=" + hideAddGame + ";" + expires + ";SameSite=Lax;path=/";
             }
 
             function applyTheme(themeName) {
@@ -316,6 +323,10 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                         border-radius: 10px;
                         padding: 10px;
                         margin-bottom: 20px;
+                    }
+
+                    #newGameWrapper {
+                        display: ${hideAddGame == 1 ? "none" : "block"};
                     }
 
                     h1 {
@@ -430,9 +441,14 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             }
 
             let currentTheme = getCookie("ghTheme");
+            let hideAddGame = getCookie("hideAddGame");
 
             if(!themes[currentTheme]) {
                 currentTheme = "nord";
+            }
+
+            if(isNaN(hideAddGame) || hideAddGame == undefined || hideAddGame == null || hideAddGame.trim() == "") {
+                hideAddGame = 0;
             }
 
             applyTheme(currentTheme);
@@ -538,9 +554,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 <script>
                     document.write(`
                         <b>Theme:</b><br />
-                        <input type="radio" name="themeRadio" onchange="applyTheme('daylight');saveTheme();" id="themeDaylight"${currentTheme == "daylight" ? " checked" : ""}><label for="themeDaylight">Daylight</label><br />
-                        <input type="radio" name="themeRadio" onchange="applyTheme('midnight');saveTheme();" id="themeMidnight"${currentTheme == "midnight" ? " checked" : ""}><label for="themeMidnight">Midnight</label><br />
-                        <input type="radio" name="themeRadio" onchange="applyTheme('nord');saveTheme();" id="themeNord"${currentTheme == "nord" ? " checked" : ""}><label for="themeNord">Nord</label><br />`);
+                        <input type="radio" name="themeRadio" onchange="applyTheme('daylight');saveSettings();" id="themeDaylight"${currentTheme == "daylight" ? " checked" : ""}><label for="themeDaylight">Daylight</label><br />
+                        <input type="radio" name="themeRadio" onchange="applyTheme('midnight');saveSettings();" id="themeMidnight"${currentTheme == "midnight" ? " checked" : ""}><label for="themeMidnight">Midnight</label><br />
+                        <input type="radio" name="themeRadio" onchange="applyTheme('nord');saveSettings();" id="themeNord"${currentTheme == "nord" ? " checked" : ""}><label for="themeNord">Nord</label><br /><br />
+
+                        <input type="checkbox" onchange="saveSettings();" id="hideAddGameCheckbox"${hideAddGame == 1 ? " checked" : ""}><label for="hideAddGameCheckbox">Hide the Add Game area by default</label>
+                    `);
                 </script>
             </div>
 
@@ -810,7 +829,8 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
             };
 
             function toggleNewGameDiv() {
-                if(document.getElementById("newGameWrapper").style.display == "none") {
+                let display = document.getElementById("newGameWrapper").style.display;
+                if(display == "none" || display == "") {
                     document.getElementById("optionsWrapper").style.display = "none";
                     document.getElementById("newGameWrapper").style.display = "block";
                 } else {
