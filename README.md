@@ -35,6 +35,9 @@ $mysqlPassword = "your-sql-password";
 
 Replace the values of the variables to fit your database configuration. GameHorizon will setup the database structure by itself.
 
+## Screenshot
+![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)
+
 ## License
 
 GameHorizon is free and open source software, licensed under the GNU General Public License v3.0.
