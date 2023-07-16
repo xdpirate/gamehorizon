@@ -17,8 +17,8 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
 ## Features
 
 * Add a game to one of four tables:
-  * **Unreleased** - Games that unreleased, but have a release date confirmed
-  * **Announced** - Games that unreleased, but there is no release date confirmed yet
+  * **Unreleased** - Games that are unreleased, but have a release date confirmed
+  * **Announced** - Games that are unreleased, but there is no release date confirmed yet
   * **Released** - Games that have already been released
   * **Collected** - Games in your collection
 * Freely move games between tables by editing them
