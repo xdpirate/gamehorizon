@@ -35,6 +35,9 @@ $mysqlPassword = "your-sql-password";
 
 Replace the values of the variables to fit your database configuration. GameHorizon will setup the database structure by itself.
 
+If the filenames in your exported files are stamped with the wrong time, include `date_default_timezone_set("Europe/Oslo");` on a separate line before the closing php tag `?>`, then replace `Europe/Oslo` with the appropriate timezone according to PHP's [List of Supported Timezones](https://www.php.net/manual/en/timezones.php).
+
+
 ## Screenshot
 ![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)
 
