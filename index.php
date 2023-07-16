@@ -545,12 +545,12 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 },
                 "nord": {
                     background: "#2e3440",
-                    foreground: "white",
+                    foreground: "#e5e9f0",
                     platformbg: "#3b4252",
                     oddrow: "#434c5e",
                     evenrow: "#4c566a",
-                    released: "#0f0",
-                    link: "white"
+                    released: "#0c0",
+                    link: "#e5e9f0"
                 }
             };
 
