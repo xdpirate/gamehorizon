@@ -1,6 +1,6 @@
 # GameHorizon
 
-Simple self-hosted tracker for upcoming, current and collected games.
+Simple self-hosted tracker to keep track of upcoming, current and collected games.
 
 ## Requirements
 
@@ -12,18 +12,19 @@ GameHorizon is developed and tested using Apache2 and MySQL, but other web serve
 
 ## Usability
 
-It works as intended. It doesn't look too hot on phones, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. 
+It works as intended. It doesn't look too hot on phones at the moment, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. I'm planning to make a more mobile-friendly UI in the future, but focus right now is on the desktop experience.
 
 ## Features
 
 * Add a game to one of four tables:
-  * **Unreleased** - Games that have a release date set
-  * **Announced** - Games that are announced but there is no release date set
+  * **Unreleased** - Games that unreleased, but have a release date confirmed
+  * **Announced** - Games that unreleased, but there is no release date confirmed yet
   * **Released** - Games that have already been released
   * **Collected** - Games in your collection
+* Freely move games between tables by editing them
 * Support for adding platforms to each game
 * For unreleased games, show a countdown to when the game releases when you hover over the release date (e.g. *"Releases tomorrow"*, *"Releases in 81 days"*)
-* Buttons to edit, delete or web search for the name of any given game
+* Buttons to edit, delete or web search for any given game
 * Names are not unique and can exist in several states and tables at once
 * Themes: Light theme, dark theme, [Nord](https://www.nordtheme.com/)
 * Export game data to CSV or HTML formats
