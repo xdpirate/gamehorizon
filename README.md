@@ -14,6 +14,20 @@ GameHorizon is developed and tested using Apache2 and MySQL, but other web serve
 
 It works as intended. It doesn't look too hot on phones, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. 
 
+## Features
+
+* Add a game to one of four tables:
+  * **Unreleased** - Games that have a release date set
+  * **Announced** - Games that are announced but there is no release date set
+  * **Released** - Games that have already been released
+  * **Collected** - Games in your collection
+* Support for adding platforms to each game
+* For unreleased games, show a countdown to when the game releases when you hover over the release date (e.g. *"Releases tomorrow"*, *"Releases in 81 days"*)
+* Buttons to edit, delete or web search for the name of any given game
+* Names are not unique and can exist in several states and tables at once
+* Themes: Light theme, dark theme, [Nord](https://www.nordtheme.com/)
+* Export game data to CSV or HTML formats
+
 ## Security
 
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
