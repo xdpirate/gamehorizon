@@ -4,11 +4,20 @@ Simple self-hosted tracker to keep track of upcoming, current and collected game
 
 ## Requirements
 
+You can run GameHorizon on your own AMP stack, or via Docker.
+
+### AMP stack
+
 * A web server
 * A SQL server
 * PHP
 
-GameHorizon is developed and tested using Apache2 and MySQL, but other web servers and SQL servers will probably work. Maybe.
+GameHorizon is developed and tested using Apache2 and MySQL, but other web servers and SQL servers will probably work. Maybe. 
+
+### Docker
+
+* Docker
+* Docker Compose
 
 ## Usability
 
@@ -29,16 +38,13 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
 * Themes: Light theme, dark theme, [Nord](https://www.nordtheme.com/)
 * Export game data to CSV or HTML formats
 
-## Security
+## Installation/Usage
 
-There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
+### Running on preinstalled AMP stack
 
-## Installation
-Clone/download this repository and put the gamehorizon folder in your web server document root (typically `/var/www/html`).
-
-### Database credentials
-
-You need to create `credentials.php` in the same directory as `index.php`, and populate it with the following:
+1. Clone/download this repository.
+2. Put the gamehorizon directory in your web server document root (typically `/var/www/html`).
+3. Create `credentials.php` within the same directory as `index.php`, and populate it with the following:
 
 ```
 <?php
@@ -48,10 +54,32 @@ $mysqlPassword = "your-sql-password";
 ?>
 ```
 
-Replace the values of the variables to fit your database configuration. GameHorizon will setup the database structure by itself.
+4. Replace the values of the variables to fit your database configuration. GameHorizon will setup the database structure by itself.
+5. To update GameHorizon, run `git pull` in the repo directory (requires `git` to be installed).
 
-If the filenames in your exported files are stamped with the wrong time, include `date_default_timezone_set("Europe/Oslo");` on a separate line before the closing php tag `?>`, then replace `Europe/Oslo` with the appropriate timezone according to PHP's [List of Supported Timezones](https://www.php.net/manual/en/timezones.php).
+### Running with Docker
 
+1. Clone/download this repository.
+2. `cd` to the directory with the repository.
+3. Build and run the image with `docker-compose up -d`
+4. Visit `http://localhost:1337/` in your browser to use the application.
+5. To stop, run `docker-compose stop` in the repo directory.
+6. To update GameHorizon, run `git pull` in the repo directory (requires `git` to be installed).
+
+## Cleanup/Uninstallation
+
+### AMP stack
+
+* Delete the `gamehorizon` directory from the web server document root.
+* Delete the `gamehorizon` database from the MySQL server -`DROP DATABASE gamehorizon`
+
+### Docker
+
+Run `docker-compose down` from inside the repository directory, then delete it.
+
+## Security
+
+There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
 ## Screenshot
 ![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)

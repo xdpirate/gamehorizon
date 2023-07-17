@@ -1,4 +1,5 @@
 <?php
+// ===================================================================================
 // GameHorizon -  Simple self-hosted tracker for upcoming and collected games
 // Copyright ©️ 2023 xdpirate
 
@@ -14,10 +15,19 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// ===================================================================================
+
+// These credentials are for the Docker image. If you want to run GameHorizon
+// locally without using Docker, don't change these; add them to credentials.php!
+$mysqlHost = "db";
+$mysqlUser = "php_docker";
+$mysqlPassword = "password123";
+
+error_reporting(E_ERROR); // Silence the next line so it doesn't cry when running in Docker
+include("./credentials.php");
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set("display_errors", 1);
-require("./credentials.php");
 
 $platformList = ["PS5", "PS4", "XSX", "XB1", "Switch", "PC", "Android", "PSVR2", "iOS"];
 sort($platformList);
