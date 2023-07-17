@@ -82,6 +82,8 @@ Run `docker-compose down` from inside the repository directory, then delete it.
 
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
+If you are running GH in Docker and also and exposing it outside your own network, you need to change the MySQL username and password in `docker-compose.yml` and `index.php` to something unique. If you don't, your database will be vulnerable, as the default credentials are included in plain text in this repository!
+
 ## Screenshot
 ![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)
 
