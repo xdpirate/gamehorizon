@@ -62,9 +62,10 @@ $mysqlPassword = "your-sql-password";
 1. Clone/download this repository.
 2. `cd` to the directory with the repository.
 3. Build and run the image with `docker-compose up -d`
-4. Visit `http://localhost:1337/` in your browser to use the application.
-5. To stop, run `docker-compose stop` in the repo directory.
-6. To update GameHorizon, run `git pull` in the repo directory (requires `git` to be installed).
+4. Wait 10-20 seconds after the first run to let the database start up.
+5. Visit `http://localhost:1337/` in your browser to use the application.
+6. To stop, run `docker-compose stop` in the repo directory.
+7. To update GameHorizon, run `git pull` in the repo directory (requires `git` to be installed).
 
 ## Cleanup/Uninstallation
 
