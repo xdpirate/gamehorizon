@@ -121,8 +121,8 @@ if(isset($_GET['export']) && isset($_GET['format'])) {
     if($format == "csv") {
         if($table == "all") {
             $resultsUnreleased = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
-            $resultsTBA = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
-            $resultsReleased = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
+            $resultsTBA = mysqli_query($link, "SELECT * FROM gamesTBA $orderStr");
+            $resultsReleased = mysqli_query($link, "SELECT * FROM gamesReleased $orderStr");
             $resultsCollected = mysqli_query($link, "SELECT * FROM gamesCollected $orderStr");
 
             $outputString .= "Table,ID,GameName,ReleaseDate,Platforms\n";
@@ -198,8 +198,8 @@ if(isset($_GET['export']) && isset($_GET['format'])) {
     } elseif($format == "html") {
         if($table == "all") {
             $resultsUnreleased = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
-            $resultsTBA = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
-            $resultsReleased = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
+            $resultsTBA = mysqli_query($link, "SELECT * FROM gamesTBA $orderStr");
+            $resultsReleased = mysqli_query($link, "SELECT * FROM gamesReleased $orderStr");
             $resultsCollected = mysqli_query($link, "SELECT * FROM gamesCollected $orderStr");
 
             $outputString .= "
