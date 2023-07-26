@@ -2,6 +2,8 @@
 
 Simple self-hosted tracker to keep track of upcoming, current and collected games.
 
+![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)
+
 ## Requirements
 
 You can run GameHorizon on your own AMP stack, or via Docker.
@@ -16,8 +18,7 @@ GameHorizon is developed and tested using Apache2 and MySQL, but other web serve
 
 ### Docker
 
-* Docker
-* Docker Compose
+* Docker and Docker Compose
 
 ## Usability
 
@@ -33,7 +34,7 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
 * Freely move games between tables by editing them
 * Support for adding platforms to each game
 * For unreleased games, show a countdown to when the game releases when you hover over the release date (e.g. *"Releases tomorrow"*, *"Releases in 81 days"*)
-* Buttons to edit, delete or web search for any given game
+* Buttons to edit, delete or web search for any given game, several search engines to choose from
 * Names are not unique and can exist in several states and tables at once
 * Themes: Light theme, dark theme, [Nord](https://www.nordtheme.com/)
 * Export game data to CSV or HTML formats
@@ -83,9 +84,6 @@ Run `docker-compose down` from inside the repository directory, then delete it. 
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
 If you are running GH in Docker and also exposing it outside your own network, you need to change the MySQL username and password in `docker-compose.yml` and `index.php` to something unique! If you don't, your database will be vulnerable, as the default credentials are included in plain text in this repository.
-
-## Screenshot
-![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)
 
 ## License
 
