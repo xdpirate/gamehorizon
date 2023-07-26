@@ -569,6 +569,14 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 }
             };
 
+            let searchEngines = {
+                "startpage": "https://www.startpage.com/sp/search?query=%s",
+                "ddg": "https://duckduckgo.com/?q=%s",
+                "google": "https://www.google.com/search?q=%s",
+                "bing": "https://www.bing.com/search?q=%s",
+                "yandex": "https://yandex.com/search/?text=%s"
+            }
+
             function saveSettings() {
                 if(document.getElementById("hideAddGameCheckbox").checked) {
                     hideAddGame = 1;
@@ -576,11 +584,18 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     hideAddGame = 0;
                 }
 
+                searchEngine = document.getElementById("searchEngine").value;
+
                 let d = new Date();
                 d.setTime(d.getTime() + (3650*24*60*60*1000));
                 let expires = "expires="+ d.toUTCString();
                 document.cookie = "ghTheme=" + currentTheme + ";" + expires + ";SameSite=Lax;path=/";
                 document.cookie = "hideAddGame=" + hideAddGame + ";" + expires + ";SameSite=Lax;path=/";
+                document.cookie = "searchEngine=" + searchEngine + ";" + expires + ";SameSite=Lax;path=/";
+            }
+
+            function doSearch(gameName) {
+                window.open(searchEngines[searchEngine].replace("%s", gameName), '_blank');
             }
 
             function applyTheme(themeName) {
@@ -695,7 +710,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                         cursor: pointer;
                     }
 
-                    .editButton, .deleteButton {
+                    .editButton, .deleteButton, .searchButton {
                         cursor: pointer;
                     }
 
@@ -746,6 +761,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
             let currentTheme = getCookie("ghTheme");
             let hideAddGame = getCookie("hideAddGame");
+            let searchEngine = getCookie("searchEngine");
 
             if(!themes[currentTheme]) {
                 currentTheme = "nord";
@@ -753,6 +769,10 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
             if(isNaN(hideAddGame) || hideAddGame == undefined || hideAddGame == null || hideAddGame.trim() == "") {
                 hideAddGame = 0;
+            }
+            
+            if(searchEngine == undefined || searchEngine == null || searchEngine.trim() == "") {
+                searchEngine = "startpage";
             }
 
             applyTheme(currentTheme);
@@ -848,8 +868,6 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     <input type="submit" value="Save" style="width: 49%; height: 4em;" id="saveButton" /> 
                     <input type="button" value="Clear" style="width: 49%; height: 4em;" id="clearButton" onclick="this.parentNode.reset();" /> 
 
-                    
-
                     <input type="hidden" name="submitted" value="1" />
                 </form>
             </div>
@@ -862,6 +880,16 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                         <input type="radio" name="themeRadio" onchange="applyTheme('midnight');saveSettings();" id="themeMidnight"${currentTheme == "midnight" ? " checked" : ""}><label for="themeMidnight">Midnight</label><br />
                         <input type="radio" name="themeRadio" onchange="applyTheme('nord');saveSettings();" id="themeNord"${currentTheme == "nord" ? " checked" : ""}><label for="themeNord">Nord</label>
                         
+                        <hr>
+                            <label for="searchEngine">Search engine:</label>
+
+                            <select name="searchEngine" id="searchEngine" onchange="saveSettings();">
+                                <option value="startpage"${searchEngine == "startpage" ? " selected" : ""}>Startpage</option>
+                                <option value="ddg"${searchEngine == "ddg" ? " selected" : ""}>DuckDuckGo</option>
+                                <option value="google"${searchEngine == "google" ? " selected" : ""}>Google</option>
+                                <option value="bing"${searchEngine == "bing" ? " selected" : ""}>Bing</option>
+                                <option value="yandex"${searchEngine == "yandex" ? " selected" : ""}>Yandex</option>
+                            </select>
                         <hr>
 
                         <input type="checkbox" onchange="saveSettings();" id="hideAddGameCheckbox"${hideAddGame == 1 ? " checked" : ""}><label for="hideAddGameCheckbox">Hide the Add Game area by default</label>
@@ -961,9 +989,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
+                                    $searchString = urlencode($bareGameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -1001,9 +1029,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
+                                    $searchString = urlencode($bareGameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -1040,9 +1068,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
+                                    $searchString = urlencode($bareGameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -1079,9 +1107,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                         }
                                     }
 
-                                    $searchString = "https://www.startpage.com/sp/search?query=" . urlencode($bareGameTitle);
+                                    $searchString = urlencode($bareGameTitle);
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a href='$searchString' title='Search Startpage for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
