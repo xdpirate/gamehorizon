@@ -37,7 +37,7 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
 * Buttons to edit, delete or web search for any given game, several search engines to choose from
 * Names are not unique and can exist in several states and tables at once
 * Themes: Light theme, dark theme, [Nord](https://www.nordtheme.com/)
-* Export game data to CSV or HTML formats
+* Export game data to plain text, CSV, JSON or HTML formats
 
 ## Installation/Usage
 
