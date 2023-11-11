@@ -55,8 +55,8 @@ $mysqlPassword = "your-sql-password";
 ?>
 ```
 
-4. Replace the values of the variables to fit your database configuration. GameHorizon will setup the database structure by itself.
-5. To update GameHorizon, run `git pull` in the repo directory (requires `git` to be installed).
+4. Replace the values of the variables to fit your database configuration. GameHorizon will set up the database structure by itself.
+5. To update GameHorizon, run `git pull` in the repository directory (requires `git` to be installed).
 
 ### Running with Docker
 
@@ -65,10 +65,10 @@ $mysqlPassword = "your-sql-password";
 3. Build and run the image with `docker-compose up -d`
 4. Wait 10-20 seconds after the first run to let the database start up.
 5. Visit `http://localhost:1337/` in your browser to use the application.
-6. To stop, run `docker-compose stop` in the repo directory.
-7. To update GameHorizon, run `git pull` in the repo directory (requires `git` to be installed).
+6. To stop, run `docker-compose stop` in the repository directory.
+7. To update GameHorizon, run `git pull` in the repository directory (requires `git` to be installed).
 
-## Cleanup/Uninstallation
+## Clean-up/Uninstallation
 
 ### AMP stack
 
@@ -77,13 +77,13 @@ $mysqlPassword = "your-sql-password";
 
 ### Docker
 
-Run `docker-compose down` from inside the repository directory, then delete it. Note that running this command destroys your stored GH data; don't do it unless you wish for that to happen.
+Run `docker-compose down` from inside the repository directory, then delete it. Note that running this command destroys your stored GameHorizon data; don't do it unless you wish for that to happen.
 
 ## Security
 
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
-If you are running GH in Docker and also exposing it outside your own network, you need to change the MySQL username and password in `docker-compose.yml` and `index.php` to something unique! If you don't, your database will be vulnerable, as the default credentials are included in plain text in this repository.
+If you are running GameHorizon in Docker and also exposing it outside your own network, you need to change the MySQL username and password in `docker-compose.yml` and `index.php` to something unique! If you don't, your database will be vulnerable, as the default credentials are included in plain text in this repository.
 
 ## License
 
