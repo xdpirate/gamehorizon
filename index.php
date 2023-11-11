@@ -93,7 +93,7 @@ if(isset($_GET['delete']) && isset($_GET['from'])) {
     header("Location: ./?t=$_GET[from]");
 }
 
-// Export game list to external CSV or plaintext
+// Export game database
 if(isset($_GET['export']) && isset($_GET['format'])) {
     $table = strtolower(trim($_GET['export']));
     $format = strtolower(trim($_GET['format']));
@@ -376,6 +376,194 @@ if(isset($_GET['export']) && isset($_GET['format'])) {
             ";
 
             header('Content-Disposition: attachment; filename="GameHorizon-'.$table.'-'.date('YmdHis').'.html"');
+            header('Content-Type: application/octet-stream');
+            header('Content-Length: ' . strlen($outputString));
+            header('Connection: close');
+
+            echo $outputString;
+        }
+    } elseif($format == "text") {
+        if($table == "all") {
+            $resultsUnreleased = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
+            $resultsTBA = mysqli_query($link, "SELECT * FROM gamesTBA $orderStr");
+            $resultsReleased = mysqli_query($link, "SELECT * FROM gamesReleased $orderStr");
+            $resultsCollected = mysqli_query($link, "SELECT * FROM gamesCollected $orderStr");
+
+            $outputString .= "Unreleased:\n===========\n";
+
+            for($i = 0; $i < mysqli_num_rows($resultsUnreleased); $i++) {
+                $gameTitle = mysqli_result($resultsUnreleased,$i,"GameName");
+                $platforms = mysqli_result($resultsUnreleased,$i,"Platforms");
+
+                if($platforms == "") {
+                    $outputString .= "$gameTitle\n";
+                } else {
+                    $platforms = str_replace("|", ", ", $platforms);
+                    $outputString .= "$gameTitle ($platforms)\n";
+                }
+            }
+
+            $outputString .= "\nAnnounced:\n==========\n";
+            
+            for($i = 0; $i < mysqli_num_rows($resultsTBA); $i++) {
+                $gameTitle = mysqli_result($resultsTBA,$i,"GameName");
+                $platforms = mysqli_result($resultsTBA,$i,"Platforms");
+               
+                if($platforms == "") {
+                    $outputString .= "$gameTitle\n";
+                } else {
+                    $platforms = str_replace("|", ", ", $platforms);
+                    $outputString .= "$gameTitle ($platforms)\n";
+                }
+            }
+
+            $outputString .= "\nReleased:\n=========\n";
+
+            for($i = 0; $i < mysqli_num_rows($resultsReleased); $i++) {
+                $gameTitle = mysqli_result($resultsReleased,$i,"GameName");
+                $platforms = mysqli_result($resultsReleased,$i,"Platforms");
+                
+                if($platforms == "") {
+                    $outputString .= "$gameTitle\n";
+                } else {
+                    $platforms = str_replace("|", ", ", $platforms);
+                    $outputString .= "$gameTitle ($platforms)\n";
+                }
+            }
+
+            $outputString .= "\nCollected:\n==========\n";
+
+            for($i = 0; $i < mysqli_num_rows($resultsCollected); $i++) {
+                $gameTitle = mysqli_result($resultsCollected,$i,"GameName");
+                $platforms = mysqli_result($resultsCollected,$i,"Platforms");
+                
+                if($platforms == "") {
+                    $outputString .= "$gameTitle\n";
+                } else {
+                    $platforms = str_replace("|", ", ", $platforms);
+                    $outputString .= "$gameTitle ($platforms)\n";
+                }
+            }
+
+            header('Content-Disposition: attachment; filename="GameHorizon-All-'.date('YmdHis').'.txt"');
+            header('Content-Type: application/octet-stream');
+            header('Content-Length: ' . strlen($outputString));
+            header('Connection: close');
+
+            echo $outputString;
+        } else {
+            $results = mysqli_query($link, "SELECT * FROM $table $orderStr");
+
+            $tableName = "";
+            
+            if($table == "gamesUnreleased") {
+                $tableName = "Unreleased";
+            } elseif($table == "gamesTBA") { 
+                $tableName = "Announced";
+            } elseif($table == "gamesReleased") { 
+                $tableName = "Released";
+            } elseif($table == "gamesCollected") { 
+                $tableName = "Collected";
+            }
+
+            $outputString .= "$tableName:\n==========\n";
+
+            for($i = 0; $i < mysqli_num_rows($results); $i++) {
+                $gameTitle = mysqli_result($results,$i,"GameName");
+                $platforms = mysqli_result($results,$i,"Platforms");
+
+                if($platforms == "") {
+                    $outputString .= "$gameTitle\n";
+                } else {
+                    $platforms = str_replace("|", ", ", $platforms);
+                    $outputString .= "$gameTitle ($platforms)\n";
+                }
+            }
+
+            header('Content-Disposition: attachment; filename="GameHorizon-'.$tableName.'-'.date('YmdHis').'.txt"');
+            header('Content-Type: application/octet-stream');
+            header('Content-Length: ' . strlen($outputString));
+            header('Connection: close');
+
+            echo $outputString;
+        }
+    } elseif($format == "json") {
+        if($table == "all") {
+            $resultsUnreleased = mysqli_query($link, "SELECT * FROM gamesUnreleased $orderStr");
+            $resultsTBA = mysqli_query($link, "SELECT * FROM gamesTBA $orderStr");
+            $resultsReleased = mysqli_query($link, "SELECT * FROM gamesReleased $orderStr");
+            $resultsCollected = mysqli_query($link, "SELECT * FROM gamesCollected $orderStr");
+
+            $outputString .= "[\n\t{\n\t\t\"table\": \"gamesUnreleased\",\n\t\t\"data\": [";
+
+            for($i = 0; $i < mysqli_num_rows($resultsUnreleased); $i++) {
+                $gameID = mysqli_result($resultsUnreleased,$i,"ID");
+                $gameTitle = mysqli_result($resultsUnreleased,$i,"GameName");
+                $releaseDate = mysqli_result($resultsUnreleased,$i,"ReleaseDate");
+                $platforms = mysqli_result($resultsUnreleased,$i,"Platforms");
+                
+                $outputString .= "\n\t\t\t{\n\t\t\t\t\"gameID\": \"$gameID\",\n\t\t\t\t\"gameTitle\": \"$gameTitle\",\n\t\t\t\t\"releaseDate\": \"$releaseDate\",\n\t\t\t\t\"platforms\": \"$platforms\"\n\t\t\t},";
+            }
+
+            $outputString = substr_replace($outputString ,"", -1) . "\n\t\t]\n\t},\n\t{\n\t\t\"table\": \"gamesTBA\",\n\t\t\"data\": [";
+            
+            for($i = 0; $i < mysqli_num_rows($resultsTBA); $i++) {
+                $gameID = mysqli_result($resultsTBA,$i,"ID");
+                $gameTitle = mysqli_result($resultsTBA,$i,"GameName");
+                $platforms = mysqli_result($resultsTBA,$i,"Platforms");
+                
+                $outputString .= "\n\t\t\t{\n\t\t\t\t\"gameID\": \"$gameID\",\n\t\t\t\t\"gameTitle\": \"$gameTitle\",\n\t\t\t\t\"platforms\": \"$platforms\"\n\t\t\t},";
+            }
+
+            $outputString = substr_replace($outputString ,"", -1) . "\n\t\t]\n\t},\n\t{\n\t\t\"table\": \"gamesReleased\",\n\t\t\"data\": [";
+
+            for($i = 0; $i < mysqli_num_rows($resultsReleased); $i++) {
+                $gameID = mysqli_result($resultsReleased,$i,"ID");
+                $gameTitle = mysqli_result($resultsReleased,$i,"GameName");
+                $platforms = mysqli_result($resultsReleased,$i,"Platforms");
+                
+                $outputString .= "\n\t\t\t{\n\t\t\t\t\"gameID\": \"$gameID\",\n\t\t\t\t\"gameTitle\": \"$gameTitle\",\n\t\t\t\t\"platforms\": \"$platforms\"\n\t\t\t},";
+            }
+
+            $outputString = substr_replace($outputString ,"", -1) . "\n\t\t]\n\t},\n\t{\n\t\t\"table\": \"gamesCollected\",\n\t\t\"data\": [";
+
+            for($i = 0; $i < mysqli_num_rows($resultsCollected); $i++) {
+                $gameID = mysqli_result($resultsCollected,$i,"ID");
+                $gameTitle = mysqli_result($resultsCollected,$i,"GameName");
+                $platforms = mysqli_result($resultsCollected,$i,"Platforms");
+                
+                $outputString .= "\n\t\t\t{\n\t\t\t\t\"gameID\": \"$gameID\",\n\t\t\t\t\"gameTitle\": \"$gameTitle\",\n\t\t\t\t\"platforms\": \"$platforms\"\n\t\t\t},";
+            }
+
+            $outputString = substr_replace($outputString ,"", -1) . "\n\t\t]\n\t}\n]";
+
+            header('Content-Disposition: attachment; filename="GameHorizon-All-'.date('YmdHis').'.json"');
+            header('Content-Type: application/octet-stream');
+            header('Content-Length: ' . strlen($outputString));
+            header('Connection: close');
+
+            echo $outputString;
+        } else {
+            $results = mysqli_query($link, "SELECT * FROM $table $orderStr");
+            
+            $outputString .= "{\n\t\"table\": \"$table\",\n\t\"data\": [";
+            
+            for($i = 0; $i < mysqli_num_rows($results); $i++) {
+                $gameID = mysqli_result($results,$i,"ID");
+                $gameTitle = mysqli_result($results,$i,"GameName");
+                $platforms = mysqli_result($results,$i,"Platforms");
+                
+                if($table == "gamesUnreleased") {
+                    $releaseDate = mysqli_result($results,$i,"ReleaseDate");
+                    $outputString .= "\n\t\t{\n\t\t\t\"gameID\": \"$gameID\",\n\t\t\t\"gameTitle\": \"$gameTitle\",\n\t\t\t\"releaseDate\": \"$releaseDate\",\n\t\t\t\"platforms\": \"$platforms\"\n\t\t},";
+                } else {
+                    $outputString .= "\n\t\t{\n\t\t\t\"gameID\": \"$gameID\",\n\t\t\t\"gameTitle\": \"$gameTitle\",\n\t\t\t\"platforms\": \"$platforms\"\n\t\t},";
+                } 
+            }
+
+            $outputString = substr_replace($outputString ,"", -1) . "\n\t]\n}\n";
+
+            header('Content-Disposition: attachment; filename="GameHorizon-'.$table.'-'.date('YmdHis').'.json"');
             header('Content-Type: application/octet-stream');
             header('Content-Length: ' . strlen($outputString));
             header('Connection: close');
@@ -912,7 +1100,10 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                                 
                                 <br />
                                 
-                                Format: <input type="radio" name="format" id="formatCSV" value="csv" checked><label for="formatCSV">CSV</label>
+                                Format: 
+                                <input type="radio" name="format" id="formatText" value="text" checked><label for="formatText">Plain text</label> <span title="Plain text exports only include game titles and platforms, no database IDs or release dates." onclick="javascript:alert('Plain text exports only include game titles and platforms, no database IDs or release dates.');">🛈</span>
+                                <input type="radio" name="format" id="formatCSV" value="csv"><label for="formatCSV">CSV</label>
+                                <input type="radio" name="format" id="formatJSON" value="json"><label for="formatJSON">JSON</label>
                                 <input type="radio" name="format" id="formatHTML" value="html"><label for="formatHTML">HTML</label>
 
                                 <br />
