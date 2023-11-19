@@ -34,10 +34,15 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
 * Freely move games between tables by editing them
 * Support for adding platforms to each game
 * For unreleased games, show a countdown to when the game releases when you hover over the release date (e.g. *"Releases tomorrow"*, *"Releases in 81 days"*)
-* Buttons to edit, delete or web search for any given game, several search engines to choose from
-* Names are not unique and can exist in several states and tables at once
-* Themes: Light theme, dark theme, [Nord](https://www.nordtheme.com/)
+* Buttons to edit, delete or web search for any given game
+  * Several built-in search engines to choose from
+  * Support for defining a custom search engine
+* Themes: 
+  * Light theme
+  * Dark theme
+  * [Nord](https://www.nordtheme.com/)
 * Export game data to plain text, CSV, JSON or HTML formats
+* Names are not unique and can exist in several states and tables at once
 
 ## Installation/Usage
 
