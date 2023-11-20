@@ -93,7 +93,7 @@ If you are running GameHorizon in Docker and also exposing it outside your own n
 
 ## Updater
 
-You can update GameHorizon through the UI by clicking "Update" on the bottom right of the page. This is disabled by default, as it requires you to be running GH outside of Docker and inside a trusted environment. It requires `git` to be installed on a UNIX-like server. GH passes your password to the OS in plaintext, and although it isn't logged, the mechanism in which it operates can be abused by someone with access to the updater. In order to enable the updater, you must add this to your `credentials.php`:
+You can update GameHorizon through the UI by clicking "Update" on the bottom right of the page. This is disabled by default, as it requires you to be running GameHorizon outside of Docker and inside a trusted environment. It requires `git` to be installed on a UNIX-like server. GameHorizon passes your password to the OS in plain text, and although it isn't logged, the mechanism in which it operates can be abused by someone with access to the updater. In order to enable the updater, you must add this to your `credentials.php`:
 
     $updaterEnabled = true;
 
