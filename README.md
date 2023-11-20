@@ -43,6 +43,7 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
   * [Nord](https://www.nordtheme.com/)
 * Export game data to plain text, CSV, JSON or HTML formats
 * Names are not unique and can exist in several states and tables at once
+* Built-in update mechanism
 
 ## Installation/Usage
 
@@ -89,6 +90,14 @@ Run `docker-compose down` from inside the repository directory, then delete it. 
 There are currently zero security measures implemented. For external access, you can use `.htaccess` based authentication or a reverse proxy with authentication. Alternatively, you can make sure the application isn't exposed outside your local network.
 
 If you are running GameHorizon in Docker and also exposing it outside your own network, you need to change the MySQL username and password in `docker-compose.yml` and `index.php` to something unique! If you don't, your database will be vulnerable, as the default credentials are included in plain text in this repository.
+
+## Updater
+
+You can update GameHorizon through the UI by clicking "Update" on the bottom right of the page. This is disabled by default, as it requires you to be running GH outside of Docker and inside a trusted environment. It requires `git` to be installed on a UNIX-like server. GH passes your password to the OS in plaintext, and although it isn't logged, the mechanism in which it operates can be abused by someone with access to the updater. In order to enable the updater, you must add this to your `credentials.php`:
+
+    $updaterEnabled = true;
+
+This can be toggled on and off at will, and will apply on the next page load. You can enable it, update, then disable it again if you'd like, but I definitely don't recommend keeping it on if you're running in an untrusted environment where other people may have access to GameHorizon.
 
 ## License
 
