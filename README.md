@@ -62,7 +62,7 @@ $mysqlPassword = "your-sql-password";
 ```
 
 4. Replace the values of the variables to fit your database configuration. GameHorizon will set up the database structure by itself.
-5. To update GameHorizon, run `git pull` in the repository directory (requires `git` to be installed).
+5. To update GameHorizon, use the [included updater](#updater), or run `git pull` in the repository directory (requires `git` to be installed).
 
 ### Running with Docker
 
