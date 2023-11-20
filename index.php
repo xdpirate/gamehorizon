@@ -25,6 +25,7 @@ $mysqlPassword = "password123";
 
 error_reporting(E_ERROR); // Silence the next line so it doesn't cry when running in Docker
 include("./credentials.php");
+require("./updater.php");
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set("display_errors", 1);
@@ -858,7 +859,9 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                 </div>
             </div>
 
-            <div id="footer">GameHorizon <?php print("(ver. " . substr(file_get_contents('.git/refs/heads/main'),0,7) . ")"); ?> &copy; 2023 xdpirate. Licensed under the <a href="https://github.com/xdpirate/gamehorizon/blob/main/LICENSE.md" target="_blank">GNU General Public License v3.0</a>. <a href="https://github.com/xdpirate/gamehorizon" target="_blank">Github</a></div>
+            <div id="footer">
+                GameHorizon <?php $commitHash = substr(file_get_contents('.git/refs/heads/main'),0,7); print("(ver. <a href='https://github.com/xdpirate/gamehorizon/commit/$commitHash'>$commitHash</a>)"); ?> &copy; 2023 xdpirate. Licensed under the <a href="https://github.com/xdpirate/gamehorizon/blob/main/LICENSE.md" target="_blank">GNU General Public License v3.0</a>. <a href="https://github.com/xdpirate/gamehorizon" target="_blank">Github</a> <a href="./?update" title="Click to update this installation of GameHorizon. Requires git on the server.">Update</a>
+            </div>
         </div>
 
         <script>
