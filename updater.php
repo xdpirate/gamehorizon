@@ -66,15 +66,15 @@ if($updaterEnabled == true) {
             $output = implode($output);
             if($output == "Already up to date.") {
                 print("
-                    <div>Already up to date (commit <a href='https://github.com/xdpirate/gamehorizon/commit/$commitHash'><b><code>$commitHash</code></b></a>).<br /><br />
+                    <div>Already up to date (commit <a href='https://github.com/xdpirate/gamehorizon/commit/$commitHash' target='_blank'><b><code>$commitHash</code></b></a>).<br /><br />
                         <a href='.'>Return to GameHorizon</a>
                     </div>
                 ");
             } else {
                 print("
                     <div>
-                        Success! Updated to <a href='https://github.com/xdpirate/gamehorizon/commit/$commitHash'><b><code>$commitHash</code></b></a>.<br /><br />
-                        <a href='https://github.com/xdpirate/gamehorizon/commits/main'>See commit history</a> 
+                        Success! Updated to <a href='https://github.com/xdpirate/gamehorizon/commit/$commitHash' target='_blank'><b><code>$commitHash</code></b></a>.<br /><br />
+                        <a href='https://github.com/xdpirate/gamehorizon/commits/main' target='_blank'>See commit history</a> 
                         <a href='.'>Return to GameHorizon</a>
                     </div>
                 ");
