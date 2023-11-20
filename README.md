@@ -49,7 +49,7 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
 
 ### Running on preinstalled AMP stack
 
-1. Clone/download this repository.
+1. Clone this repository, or [grab the latest release](https://github.com/xdpirate/gamehorizon/releases/latest)
 2. Put the gamehorizon directory in your web server document root (typically `/var/www/html`).
 3. Create `credentials.php` within the same directory as `index.php`, and populate it with the following:
 
@@ -66,7 +66,7 @@ $mysqlPassword = "your-sql-password";
 
 ### Running with Docker
 
-1. Clone/download this repository.
+1. Clone this repository, or [grab the latest release](https://github.com/xdpirate/gamehorizon/releases/latest)
 2. `cd` to the directory with the repository.
 3. Build and run the image with `docker-compose up -d`
 4. Wait 10-20 seconds after the first run to let the database start up.
