@@ -4,26 +4,6 @@ Simple self-hosted tracker to keep track of upcoming, current and collected game
 
 ![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)
 
-## Requirements
-
-You can run GameHorizon on your own AMP stack, or via Docker.
-
-### AMP stack
-
-* A web server
-* A SQL server
-* PHP
-
-GameHorizon is developed and tested using Apache2 and MySQL, but other web servers and SQL servers will probably work. Maybe. 
-
-### Docker
-
-* Docker and Docker Compose
-
-## Usability
-
-It works as intended. It doesn't look too hot on phones at the moment, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. I'm planning to make a more mobile-friendly UI in the future, but focus right now is on the desktop experience.
-
 ## Features
 
 * Add a game to one of four tables:
@@ -44,6 +24,22 @@ It works as intended. It doesn't look too hot on phones at the moment, owing to 
 * Export game data to plain text, CSV, JSON or HTML formats
 * Names are not unique and can exist in several states and tables at once
 * Built-in update mechanism
+
+## Requirements
+
+You can run GameHorizon on your own AMP stack, or via Docker.
+
+### AMP stack
+
+* A web server
+* A SQL server
+* PHP
+
+GameHorizon is developed and tested using Apache2 and MySQL, but other web servers and SQL servers will probably work. Maybe. 
+
+### Docker
+
+* Docker and Docker Compose
 
 ## Installation/Usage
 
@@ -73,6 +69,10 @@ $mysqlPassword = "your-sql-password";
 5. Visit `http://localhost:1337/` in your browser to use the application.
 6. To stop, run `docker-compose stop` in the repository directory.
 7. To update GameHorizon, run `git pull` in the repository directory (requires `git` to be installed).
+
+## Usability
+
+It works as intended. It doesn't look too hot on phones at the moment, owing to the horizontal table layout of the games. It looks nice on a tablet-style display, though, or the inner screen of foldables. I'm planning to make a more mobile-friendly UI in the future, but focus right now is on the desktop experience.
 
 ## Clean-up/Uninstallation
 
