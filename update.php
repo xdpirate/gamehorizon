@@ -10,7 +10,7 @@ if($updaterEnabled == true) {
         exec("which git", $output, $exitCode);
     
         if($exitCode > 0) {
-            die("
+            print("
                 <div>
                     Could not find <code>git</code>. Updating GameHorizon requires a UNIX-like server OS with <code>git</code> installed.
                     <br /><br /><a href='.'>Return to GameHorizon</a>
@@ -57,9 +57,9 @@ if($updaterEnabled == true) {
             ");
         } elseif($exitCode > 0) {
             if(isset($_POST['pw']) && isset($_POST['user'])) {
-                die("<div>Failed with exit code $exitCode. Wrong password? <br /><br /><input type='button' value='Try again' onclick='window.location.href=\"./?update\";'> <input type='button' value='Return to GameHorizon' onclick='window.location.href=\".\";'></div>");
+                print("<div>Failed with exit code $exitCode. Wrong password? <br /><br /><input type='button' value='Try again' onclick='window.location.href=\"./?update\";'> <input type='button' value='Return to GameHorizon' onclick='window.location.href=\".\";'></div>");
             } else {
-                die("<div>Failed with exit code $exitCode. Output:<pre>" . implode("<br />", $output) . "</pre><input type='button' value='Try again' onclick='window.location.href=\"./?update\";'> <input type='button' value='Return to GameHorizon' onclick='window.location.href=\".\";'></div>");
+                print("<div>Failed with exit code $exitCode. Output:<pre>" . implode("<br />", $output) . "</pre><input type='button' value='Try again' onclick='window.location.href=\"./?update\";'> <input type='button' value='Return to GameHorizon' onclick='window.location.href=\".\";'></div>");
             }
         } elseif($exitCode == 0) {
             $commitHash = substr(file_get_contents('.git/refs/heads/main'),0,7);
@@ -80,8 +80,6 @@ if($updaterEnabled == true) {
                 ");
             }
         }
-        
-        die();
     }    
 }
 ?>
