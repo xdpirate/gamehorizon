@@ -565,7 +565,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
 
         <div id="everything">
             <h1><a href="./"><img src="./favicon.png" width="32" height="32" /> GameHorizon</a></h1>
-            <small><i>"This game sucks"</i> - AVGN</small>
+            <small><?php include('quotes.php') ?></small>
 
             <div style="margin-top: 20px; margin-bottom: 20px;">
                 <span id="newEntryToggleDiv" onclick="toggleNewGameDiv();"><span id="formHeader">Add game</span></span>
