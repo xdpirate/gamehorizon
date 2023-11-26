@@ -60,7 +60,7 @@ mysqli_close($link);
         <title>GameHorizon</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style></style> <!-- Defined via JS -->
+        <style></style> <!-- Defined in ./js/startscripts.js -->
         <script src="./js/startscripts.js"></script>
         <link href="./favicon.png" rel="icon" type="image/png" />
 
@@ -168,7 +168,11 @@ mysqli_close($link);
                 </div>
 
                 <div class="tableWrapper" id="unreleasedWrapper">
-                    <h2>Unreleased</h2>
+                    <h2>Unreleased
+                        <div class="searchbox">
+                            <input type="search" placeholder="Filter Unreleased..." oninput="filterTable('unreleased', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('unreleased', '');">❌</span>
+                        </div>
+                    </h2>
                     <table>
                         <thead>
                             <th>Name</th>
@@ -176,7 +180,7 @@ mysqli_close($link);
                             <th>Platforms</th>
                             <th>Options</th>
                         </thead>
-                        <tbody>
+                        <tbody id="unreleasedTbody">
                             <?php 
                                 $numrows = mysqli_num_rows($resGamesUnreleased); 
                                 for($i = 0; $i < $numrows; $i++) {
@@ -233,14 +237,18 @@ mysqli_close($link);
                 </div>
 
                 <div class="tableWrapper" id="tbaWrapper">
-                    <h2>Announced</h2>
+                    <h2>Announced
+                        <div class="searchbox">
+                            <input type="search" placeholder="Filter Announced..." oninput="filterTable('tba', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('tba', '');">❌</span>
+                        </div>
+                    </h2>
                     <table>
                         <thead>
                             <th>Name</th>
                             <th>Platforms</th>
                             <th>Options</th>
                         </thead>
-                        <tbody>
+                        <tbody id="tbaTbody">
                             <?php 
                                 $numrows = mysqli_num_rows($resGamesTBA); 
                                 for($i = 0; $i < $numrows; $i++) {
@@ -273,14 +281,18 @@ mysqli_close($link);
                 </div>
                 
                 <div class="tableWrapper" id="releasedWrapper">
-                    <h2>Released</h2>
+                    <h2>Released
+                        <div class="searchbox">
+                            <input type="search" placeholder="Filter Released..." oninput="filterTable('released', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('released', '');">❌</span>
+                        </div>
+                    </h2>
                     <table>
                         <thead>
                             <th>Name</th>
                             <th>Platforms</th>
                             <th>Options</th>
                         </thead>
-                        <tbody>
+                        <tbody id="releasedTbody">
                             <?php 
                                 $numrows = mysqli_num_rows($resGamesReleased); 
                                 for($i = 0; $i < $numrows; $i++) {
@@ -312,14 +324,19 @@ mysqli_close($link);
                 </div>
 
                 <div class="tableWrapper" id="collectionWrapper">
-                    <h2>Collection</h2>
+                    <h2>Collection
+                        <div class="searchbox">
+                            <input type="search" placeholder="Filter Collection..." oninput="filterTable('collection', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('collection', '');">❌</span>
+                        </div>
+                    </h2>
+                    
                     <table>
                         <thead>
                             <th>Name</th>
                             <th>Platforms</th>
                             <th>Options</th>
                         </thead>
-                        <tbody>
+                        <tbody id="collectionTbody">
                             <?php 
                                 $numrows = mysqli_num_rows($resGamesCollected); 
                                 for($i = 0; $i < $numrows; $i++) {

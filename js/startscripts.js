@@ -94,6 +94,40 @@ function doSearch(gameName) {
     }
 }
 
+function filterTable(table, searchStr) {
+    let rows = document.querySelectorAll("#" + table + "Tbody > tr");
+    searchStr = searchStr.trim().toLowerCase();
+
+    if(searchStr == undefined || searchStr == "" || searchStr == null) {
+        for(let i = 0; i < rows.length; i++) {
+            rows[i].style.display = "table-row";
+        }
+    } else {
+        for(let i = 0; i < rows.length; i++) {
+            if(i !== (rows.length - 1)) { // Ignore last element
+                if(rows[i].querySelector("td:nth-child(1)").innerText.trim().toLowerCase().includes(searchStr)) {
+                    // Search titles
+                    rows[i].style.display = "table-row";
+                } else {
+                    // Search platforms
+                    let platformLabels = rows[i].querySelectorAll("td > span.platformLabel");
+                    let matched = false;
+                    for(let j = 0; j < platformLabels.length; j++) {
+                        if(platformLabels[j].innerText.trim().toLowerCase().includes(searchStr)) {
+                            rows[i].style.display = "table-row";
+                            matched = true;
+                        }
+                    }
+
+                    if(!matched) {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+}
+
 function applyTheme(themeName) {
     currentTheme = themeName;
     document.getElementsByTagName('style')[0].innerHTML = `
@@ -164,6 +198,10 @@ function applyTheme(themeName) {
             cursor: pointer;
         }
 
+        .pointer {
+            cursor: pointer;
+        }
+
         .gameReleased {
             color: ${themes[themeName].released};
             font-weight: bold;
@@ -172,6 +210,19 @@ function applyTheme(themeName) {
         span.activetab {
             font-weight: bold;
             text-decoration: underline;
+        }
+
+        div.searchbox {
+            float: right;
+            margin-bottom: 10px;
+        }
+
+        span.clearSearch {
+            font-size: 0.6em;
+        }
+
+        input[type=search] {
+            width: 10em;
         }
 
         h1 > a {

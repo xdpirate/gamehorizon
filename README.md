@@ -18,9 +18,10 @@ Simple self-hosted tracker to keep track of upcoming, current and collected game
   * Several built-in search engines to choose from
   * Support for defining a custom search engine
 * Themes: 
+  * [Nord](https://www.nordtheme.com/)
   * Light theme
   * Dark theme
-  * [Nord](https://www.nordtheme.com/)
+* Quick filter for each table, search titles or platforms
 * Export game data to plain text, CSV, JSON or HTML formats
 * Names are not unique and can exist in several states and tables at once
 * Built-in update mechanism
