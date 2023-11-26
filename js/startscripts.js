@@ -116,6 +116,7 @@ function filterTable(table, searchStr) {
                         if(platformLabels[j].innerText.trim().toLowerCase().includes(searchStr)) {
                             rows[i].style.display = "table-row";
                             matched = true;
+                            break;
                         }
                     }
 

@@ -173,6 +173,7 @@ mysqli_close($link);
                             <input type="search" placeholder="Filter Unreleased..." oninput="filterTable('unreleased', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('unreleased', '');">❌</span>
                         </div>
                     </h2>
+
                     <table>
                         <thead>
                             <th>Name</th>
@@ -242,6 +243,7 @@ mysqli_close($link);
                             <input type="search" placeholder="Filter Announced..." oninput="filterTable('tba', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('tba', '');">❌</span>
                         </div>
                     </h2>
+
                     <table>
                         <thead>
                             <th>Name</th>
@@ -286,6 +288,7 @@ mysqli_close($link);
                             <input type="search" placeholder="Filter Released..." oninput="filterTable('released', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('released', '');">❌</span>
                         </div>
                     </h2>
+                    
                     <table>
                         <thead>
                             <th>Name</th>

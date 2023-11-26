@@ -2,7 +2,7 @@
 
 Simple self-hosted tracker to keep track of upcoming, current and collected games.
 
-![2023-06-30_18-30](https://github.com/xdpirate/gamehorizon/assets/1757462/c9c55c78-fbba-4d66-8dd8-882728f9a4ad)
+![2023-11-26_19-54](https://github.com/xdpirate/gamehorizon/assets/1757462/1dbbee07-63b3-480f-b5a3-e15e476ca9e5)
 
 ## Features
 
