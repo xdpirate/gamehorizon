@@ -237,6 +237,7 @@ function applyTheme(themeName) {
 
         table {
             width: 100%;
+            border-collapse: collapse;
         }
 
         span.platformLabel {
@@ -283,11 +284,17 @@ function applyTheme(themeName) {
         }
 
         td,th {
-            padding: 5px;
+            padding: 6px;
+            border-bottom: 1px solid ${themes[themeName].background};
         }
 
         th {
             background-color: ${themes[themeName].evenrow};
+        }
+
+        .tableRounder {
+            border-radius: 10px; 
+            overflow: hidden;
         }
 
         #tbaWrapper, #releasedWrapper, #collectionWrapper {

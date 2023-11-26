@@ -174,6 +174,7 @@ mysqli_close($link);
                         </div>
                     </h2>
 
+                    <div class="tableRounder">
                     <table>
                         <thead>
                             <th>Name</th>
@@ -235,6 +236,7 @@ mysqli_close($link);
                             ?>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 <div class="tableWrapper" id="tbaWrapper">
@@ -288,7 +290,7 @@ mysqli_close($link);
                             <input type="search" placeholder="Filter Released..." oninput="filterTable('released', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('released', '');">❌</span>
                         </div>
                     </h2>
-                    
+
                     <table>
                         <thead>
                             <th>Name</th>
