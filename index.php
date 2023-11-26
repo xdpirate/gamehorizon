@@ -340,6 +340,7 @@ $searchImage = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzen
                     #everything {
                         width: 50%;
                         margin: auto;
+                        margin-top: 50px;
                     }
 
                     #modal {
