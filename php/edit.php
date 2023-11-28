@@ -65,6 +65,7 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
             mysqli_query($link, "INSERT INTO $newTable (GameName,Platforms) VALUES ('$gameName','$platforms')");
         }
 
+        $gameID = mysqli_insert_id($link);
         mysqli_query($link, "DELETE FROM $oldTable WHERE ID=$gameID");
     }
 
