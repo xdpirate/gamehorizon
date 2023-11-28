@@ -187,9 +187,7 @@ mysqli_close($link);
                                 $numrows = mysqli_num_rows($resGamesUnreleased); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesUnreleased,$i,"ID");
-                                    $gameTitle = mysqli_result($resGamesUnreleased,$i,"GameName");
-                                    $bareGameTitle = $gameTitle;
-                                    $gameTitle = htmlentities($gameTitle);
+                                    $gameTitle = htmlentities(mysqli_result($resGamesUnreleased,$i,"GameName"));
                                     $releaseDate = mysqli_result($resGamesUnreleased,$i,"ReleaseDate");
                                     $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
 
@@ -225,9 +223,7 @@ mysqli_close($link);
                                         }
                                     }
 
-                                    $searchString = urlencode($bareGameTitle);
-
-                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }

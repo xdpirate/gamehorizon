@@ -23,6 +23,9 @@ $quotes = [
     ["Do a barrel roll!", "Peppy"],
     ["If you keep going the way you are now... you're gonna have a bad time", "Sans"],
     ["You put the wit in twit, sir", "Lawrence"],
+    ["I shall let you live, little alien... Psych! Mr. Zurkon lives only to kill", "Mr. Zurkon"],
+    ["Mr. Zurkon conducts a symphony of pain", "Mr. Zurkon"],
+    ["You are a disease, and Mr. Zurkon is the cure!", "Mr. Zurkon"],
 ];
 
 $pick = rand(0,sizeof($quotes)-1);

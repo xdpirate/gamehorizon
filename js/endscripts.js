@@ -240,3 +240,4 @@ if(switchTable) {
 
 document.getElementById("customSearchEngineBox").value = searchEngineCustomURL;
 searchEngineHandler();
+applySearchEngine();

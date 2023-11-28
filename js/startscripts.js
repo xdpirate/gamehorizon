@@ -84,6 +84,8 @@ function saveSettings() {
     document.cookie = "hideAddGame=" + hideAddGame + ";" + expires + ";SameSite=Lax;path=/";
     document.cookie = "searchEngine=" + searchEngine + ";" + expires + ";SameSite=Lax;path=/";
     document.cookie = "searchEngineCustomURL=" + encodeURIComponent(searchEngineCustomURL) + ";" + expires + ";SameSite=Lax;path=/";
+
+    applySearchEngine();
 }
 
 function doSearch(gameName) {
@@ -264,7 +266,7 @@ function applyTheme(themeName) {
             cursor: pointer;
         }
 
-        .editButton, .deleteButton, .searchButton {
+        .editButton, .deleteButton {
             cursor: pointer;
         }
 
@@ -323,6 +325,13 @@ function applyTheme(themeName) {
             }
         }
     </style>`;
+}
+
+function applySearchEngine() {
+    let searchBtns = document.querySelectorAll(".searchButton");
+    for(let i = 0; i < searchBtns.length; i++) {
+        searchBtns[i].href = searchEngines[searchEngine].replace("%s", searchBtns[i].closest("tr").firstElementChild.innerText.trim());
+    }
 }
 
 if(!themes[currentTheme]) {

@@ -18,7 +18,7 @@ optionsBox.innerHTML = `
             <option disabled>----------</option>
             <option value="custom"${searchEngine == "custom" ? " selected" : ""}>Custom</option>
         </select><br />
-        <input type="text" id="customSearchEngineBox" name="customSearchEngineBox" onkeyup="saveSettings();" placeholder="URL - use %s in place of search terms"></input>
+        <input type="text" id="customSearchEngineBox" name="customSearchEngineBox" oninput="saveSettings();" placeholder="URL - use %s in place of search terms"></input>
     <hr>
 
     <input type="checkbox" onchange="saveSettings();" id="hideAddGameCheckbox"${hideAddGame == 1 ? " checked" : ""}><label for="hideAddGameCheckbox">Hide the Add Game area by default</label>
