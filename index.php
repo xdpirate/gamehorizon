@@ -253,9 +253,7 @@ mysqli_close($link);
                                 $numrows = mysqli_num_rows($resGamesTBA); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesTBA,$i,"ID");
-                                    $gameTitle = mysqli_result($resGamesTBA,$i,"GameName");
-                                    $bareGameTitle = $gameTitle;
-                                    $gameTitle = htmlentities($gameTitle);
+                                    $gameTitle = htmlentities(mysqli_result($resGamesTBA,$i,"GameName"));
                                     $releaseDate = mysqli_result($resGamesTBA,$i,"ReleaseDate");
                                     $platforms = explode("|", mysqli_result($resGamesTBA,$i,"Platforms"));
 
@@ -267,9 +265,7 @@ mysqli_close($link);
                                         }
                                     }
 
-                                    $searchString = urlencode($bareGameTitle);
-
-                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -298,9 +294,7 @@ mysqli_close($link);
                                 $numrows = mysqli_num_rows($resGamesReleased); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesReleased,$i,"ID");
-                                    $gameTitle = mysqli_result($resGamesReleased,$i,"GameName");
-                                    $bareGameTitle = $gameTitle;
-                                    $gameTitle = htmlentities($gameTitle);
+                                    $gameTitle = htmlentities(mysqli_result($resGamesReleased,$i,"GameName"));
                                     $platforms = explode("|", mysqli_result($resGamesReleased,$i,"Platforms"));
 
                                     $outputstring = "<tr id='r$gameID'><td>$gameTitle</td><td>";
@@ -311,9 +305,7 @@ mysqli_close($link);
                                         }
                                     }
 
-                                    $searchString = urlencode($bareGameTitle);
-
-                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
@@ -342,9 +334,7 @@ mysqli_close($link);
                                 $numrows = mysqli_num_rows($resGamesCollected); 
                                 for($i = 0; $i < $numrows; $i++) {
                                     $gameID = mysqli_result($resGamesCollected,$i,"ID");
-                                    $gameTitle = mysqli_result($resGamesCollected,$i,"GameName");
-                                    $bareGameTitle = $gameTitle;
-                                    $gameTitle = htmlentities($gameTitle);
+                                    $gameTitle = htmlentities(mysqli_result($resGamesCollected,$i,"GameName"));
                                     $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
 
                                     $outputstring = "<tr id='c$gameID'><td>$gameTitle</td><td>";
@@ -355,9 +345,7 @@ mysqli_close($link);
                                         }
                                     }
 
-                                    $searchString = urlencode($bareGameTitle);
-
-                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><span class='searchButton' onclick='doSearch(\"$searchString\")' title='Search the web for this game'><img src='$searchImage' width='24' height='24' /></span><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
 
                                     print $outputstring;
                                 }
