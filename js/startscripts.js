@@ -330,7 +330,9 @@ function applyTheme(themeName) {
 function applySearchEngine() {
     let searchBtns = document.querySelectorAll(".searchButton");
     for(let i = 0; i < searchBtns.length; i++) {
-        searchBtns[i].href = searchEngines[searchEngine].replace("%s", searchBtns[i].closest("tr").firstElementChild.innerText.trim());
+        let gameTitle = searchBtns[i].closest("tr").firstElementChild.innerText.trim();
+        searchBtns[i].href = searchEngines[searchEngine].replace("%s", gameTitle);
+        searchBtns[i].title = `Search the web for ${gameTitle}`;
     }
 }
 
