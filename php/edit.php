@@ -65,11 +65,11 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
             mysqli_query($link, "INSERT INTO $newTable (GameName,Platforms) VALUES ('$gameName','$platforms')");
         }
 
-        $gameID = mysqli_insert_id($link);
+        $newGameID = mysqli_insert_id($link);
         mysqli_query($link, "DELETE FROM $oldTable WHERE ID=$gameID");
     }
 
-    $fragment = strtolower(substr($newTable, 5, 1)) . strval($gameID);
+    $fragment = strtolower(substr($newTable, 5, 1)) . strval($newGameID);
 
     header("Location: ./?t=$targetTable#$fragment");
 }
