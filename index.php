@@ -175,63 +175,63 @@ mysqli_close($link);
                     </h2>
 
                     <div class="tableRounder">
-                    <table>
-                        <thead>
-                            <th>Name</th>
-                            <th>Release date</th>
-                            <th>Platforms</th>
-                            <th>Options</th>
-                        </thead>
-                        <tbody id="unreleasedTbody">
-                            <?php 
-                                $numrows = mysqli_num_rows($resGamesUnreleased); 
-                                for($i = 0; $i < $numrows; $i++) {
-                                    $gameID = mysqli_result($resGamesUnreleased,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesUnreleased,$i,"GameName"));
-                                    $releaseDate = mysqli_result($resGamesUnreleased,$i,"ReleaseDate");
-                                    $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
+                        <table>
+                            <thead>
+                                <th>Name</th>
+                                <th>Release date</th>
+                                <th>Platforms</th>
+                                <th>Options</th>
+                            </thead>
+                            <tbody id="unreleasedTbody">
+                                <?php 
+                                    $numrows = mysqli_num_rows($resGamesUnreleased); 
+                                    for($i = 0; $i < $numrows; $i++) {
+                                        $gameID = mysqli_result($resGamesUnreleased,$i,"ID");
+                                        $gameTitle = htmlentities(mysqli_result($resGamesUnreleased,$i,"GameName"));
+                                        $releaseDate = mysqli_result($resGamesUnreleased,$i,"ReleaseDate");
+                                        $platforms = explode("|", mysqli_result($resGamesUnreleased,$i,"Platforms"));
 
-                                    $remaining = ceil((strtotime($releaseDate) - time())/60/60/24);
-                                    $remainingStr = "";
+                                        $remaining = ceil((strtotime($releaseDate) - time())/60/60/24);
+                                        $remainingStr = "";
 
-                                    if($remaining == 2) {
-                                        $remainingStr = "Releases the day after tomorrow";
-                                    } elseif($remaining == 1) {
-                                        $remainingStr = "Releases tomorrow";
-                                    } elseif($remaining == 0) {
-                                        $remainingStr = "Releases today";
-                                    } elseif($remaining == -1) {
-                                        $remainingStr = "Released yesterday";
-                                    } elseif($remaining == -2) {
-                                        $remainingStr = "Released the day before yesterday";
-                                    } elseif($remaining > 0) {
-                                        $remainingStr = "Releases in $remaining days";
-                                    } elseif($remaining < -2) {
-                                        $remainingStr = "Released";
-                                    }
-
-                                    $class = "";
-                                    if($remaining < 1) {
-                                        $class = "gameReleased";
-                                    }
-
-                                    $outputstring = "<tr id='u$gameID'><td>$gameTitle</td><td><span title='$remainingStr' class='$class'>$releaseDate</span></td><td>";
-
-                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                        for($j = 0; $j < sizeof($platforms); $j++) {
-                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        if($remaining == 2) {
+                                            $remainingStr = "Releases the day after tomorrow";
+                                        } elseif($remaining == 1) {
+                                            $remainingStr = "Releases tomorrow";
+                                        } elseif($remaining == 0) {
+                                            $remainingStr = "Releases today";
+                                        } elseif($remaining == -1) {
+                                            $remainingStr = "Released yesterday";
+                                        } elseif($remaining == -2) {
+                                            $remainingStr = "Released the day before yesterday";
+                                        } elseif($remaining > 0) {
+                                            $remainingStr = "Releases in $remaining days";
+                                        } elseif($remaining < -2) {
+                                            $remainingStr = "Released";
                                         }
+
+                                        $class = "";
+                                        if($remaining < 1) {
+                                            $class = "gameReleased";
+                                        }
+
+                                        $outputstring = "<tr id='u$gameID'><td>$gameTitle</td><td><span title='$remainingStr' class='$class'>$releaseDate</span></td><td>";
+
+                                        if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                            for($j = 0; $j < sizeof($platforms); $j++) {
+                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                            }
+                                        }
+
+                                        $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                        print $outputstring;
                                     }
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"unreleased\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"unreleased\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
-
-                                    print $outputstring;
-                                }
-
-                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                            ?>
-                        </tbody>
-                    </table>
+                                    print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                                ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -242,38 +242,40 @@ mysqli_close($link);
                         </div>
                     </h2>
 
-                    <table>
-                        <thead>
-                            <th>Name</th>
-                            <th>Platforms</th>
-                            <th>Options</th>
-                        </thead>
-                        <tbody id="tbaTbody">
-                            <?php 
-                                $numrows = mysqli_num_rows($resGamesTBA); 
-                                for($i = 0; $i < $numrows; $i++) {
-                                    $gameID = mysqli_result($resGamesTBA,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesTBA,$i,"GameName"));
-                                    $releaseDate = mysqli_result($resGamesTBA,$i,"ReleaseDate");
-                                    $platforms = explode("|", mysqli_result($resGamesTBA,$i,"Platforms"));
+                    <div class="tableRounder">
+                        <table>
+                            <thead>
+                                <th>Name</th>
+                                <th>Platforms</th>
+                                <th>Options</th>
+                            </thead>
+                            <tbody id="tbaTbody">
+                                <?php 
+                                    $numrows = mysqli_num_rows($resGamesTBA); 
+                                    for($i = 0; $i < $numrows; $i++) {
+                                        $gameID = mysqli_result($resGamesTBA,$i,"ID");
+                                        $gameTitle = htmlentities(mysqli_result($resGamesTBA,$i,"GameName"));
+                                        $releaseDate = mysqli_result($resGamesTBA,$i,"ReleaseDate");
+                                        $platforms = explode("|", mysqli_result($resGamesTBA,$i,"Platforms"));
 
-                                    $outputstring = "<tr id='t$gameID'><td>$gameTitle</td><td>";
+                                        $outputstring = "<tr id='t$gameID'><td>$gameTitle</td><td>";
 
-                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                        for($j = 0; $j < sizeof($platforms); $j++) {
-                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                            for($j = 0; $j < sizeof($platforms); $j++) {
+                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                            }
                                         }
+
+                                        $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                        print $outputstring;
                                     }
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"tba\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"tba\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
-
-                                    print $outputstring;
-                                }
-
-                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                            ?>
-                        </tbody>
-                    </table>
+                                    print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 
                 <div class="tableWrapper" id="releasedWrapper">
@@ -283,37 +285,39 @@ mysqli_close($link);
                         </div>
                     </h2>
 
-                    <table>
-                        <thead>
-                            <th>Name</th>
-                            <th>Platforms</th>
-                            <th>Options</th>
-                        </thead>
-                        <tbody id="releasedTbody">
-                            <?php 
-                                $numrows = mysqli_num_rows($resGamesReleased); 
-                                for($i = 0; $i < $numrows; $i++) {
-                                    $gameID = mysqli_result($resGamesReleased,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesReleased,$i,"GameName"));
-                                    $platforms = explode("|", mysqli_result($resGamesReleased,$i,"Platforms"));
+                    <div class="tableRounder">
+                        <table>
+                            <thead>
+                                <th>Name</th>
+                                <th>Platforms</th>
+                                <th>Options</th>
+                            </thead>
+                            <tbody id="releasedTbody">
+                                <?php 
+                                    $numrows = mysqli_num_rows($resGamesReleased); 
+                                    for($i = 0; $i < $numrows; $i++) {
+                                        $gameID = mysqli_result($resGamesReleased,$i,"ID");
+                                        $gameTitle = htmlentities(mysqli_result($resGamesReleased,$i,"GameName"));
+                                        $platforms = explode("|", mysqli_result($resGamesReleased,$i,"Platforms"));
 
-                                    $outputstring = "<tr id='r$gameID'><td>$gameTitle</td><td>";
+                                        $outputstring = "<tr id='r$gameID'><td>$gameTitle</td><td>";
 
-                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                        for($j = 0; $j < sizeof($platforms); $j++) {
-                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                            for($j = 0; $j < sizeof($platforms); $j++) {
+                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                            }
                                         }
+
+                                        $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                        print $outputstring;
                                     }
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"released\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"released\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
-
-                                    print $outputstring;
-                                }
-
-                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                            ?>
-                        </tbody>
-                    </table>
+                                    print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="tableWrapper" id="collectionWrapper">
@@ -323,37 +327,39 @@ mysqli_close($link);
                         </div>
                     </h2>
                     
-                    <table>
-                        <thead>
-                            <th>Name</th>
-                            <th>Platforms</th>
-                            <th>Options</th>
-                        </thead>
-                        <tbody id="collectionTbody">
-                            <?php 
-                                $numrows = mysqli_num_rows($resGamesCollected); 
-                                for($i = 0; $i < $numrows; $i++) {
-                                    $gameID = mysqli_result($resGamesCollected,$i,"ID");
-                                    $gameTitle = htmlentities(mysqli_result($resGamesCollected,$i,"GameName"));
-                                    $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
+                    <div class="tableRounder">
+                        <table>
+                            <thead>
+                                <th>Name</th>
+                                <th>Platforms</th>
+                                <th>Options</th>
+                            </thead>
+                            <tbody id="collectionTbody">
+                                <?php 
+                                    $numrows = mysqli_num_rows($resGamesCollected); 
+                                    for($i = 0; $i < $numrows; $i++) {
+                                        $gameID = mysqli_result($resGamesCollected,$i,"ID");
+                                        $gameTitle = htmlentities(mysqli_result($resGamesCollected,$i,"GameName"));
+                                        $platforms = explode("|", mysqli_result($resGamesCollected,$i,"Platforms"));
 
-                                    $outputstring = "<tr id='c$gameID'><td>$gameTitle</td><td>";
+                                        $outputstring = "<tr id='c$gameID'><td>$gameTitle</td><td>";
 
-                                    if(sizeof($platforms) > 0 && $platforms[0] !== "") {
-                                        for($j = 0; $j < sizeof($platforms); $j++) {
-                                            $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                        if(sizeof($platforms) > 0 && $platforms[0] !== "") {
+                                            for($j = 0; $j < sizeof($platforms); $j++) {
+                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                            }
                                         }
+
+                                        $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
+
+                                        print $outputstring;
                                     }
 
-                                    $outputstring .= "</td><td><span onclick='editGame(\"collection\", $gameID, this);' title='Edit' class='editButton'><img src='$editImage' width='24' height='24'></span><a class='searchButton' href='' title='Search the web for this game' target='_blank'><img src='$searchImage' width='24' height='24' /></a><span onclick='deleteGame($gameID, \"collection\");'; title='Delete' class='deleteButton'><img src='$deleteImage' width='24' height='24'></span></td></tr>";
-
-                                    print $outputstring;
-                                }
-
-                                print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
-                            ?>
-                        </tbody>
-                    </table>
+                                    print "<tr><td colspan='4' class='tableFooter'>Total: <b>$numrows</b> games</td></tr>";
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div><?php } else { ?>
 
