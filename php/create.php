@@ -38,4 +38,3 @@ if(isset($_GET['submitted']) && $_GET['submitted'] == "1") {
     $fragment = strtolower(substr($releaseStatus, 0, 1)) . strval($gameID);
     header("Location: ./?t=$releaseStatus#$fragment");
 }
-?>

@@ -83,4 +83,3 @@ if($updaterEnabled == true) {
         }
     }    
 }
-?>

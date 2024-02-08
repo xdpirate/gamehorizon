@@ -73,4 +73,3 @@ if(isset($_GET['editID']) && isset($_GET['editStatus'])) {
 
     header("Location: ./?t=$targetTable#$fragment");
 }
-?>

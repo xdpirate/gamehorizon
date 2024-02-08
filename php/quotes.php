@@ -30,4 +30,3 @@ $quotes = [
 
 $pick = rand(0,sizeof($quotes)-1);
 print("<i>\"" . $quotes[$pick][0] . "\"</i> - " . $quotes[$pick][1]);
-?>
