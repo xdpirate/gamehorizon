@@ -186,6 +186,11 @@ function applyTheme(themeName) {
             display: ${hideAddGame == 1 ? "none" : "block"};
         }
 
+        thead {
+            position: sticky;
+            top: 0px;
+        }
+
         h1 {
             margin: 0;
         }
@@ -296,7 +301,7 @@ function applyTheme(themeName) {
 
         .tableRounder {
             border-radius: 10px; 
-            overflow: hidden;
+            overflow: clip;
         }
 
         #tbaWrapper, #releasedWrapper, #collectionWrapper {
