@@ -77,8 +77,8 @@ mysqli_close($link);
     </head>
     
     <body>
-        <?php if(!isset($_GET['update'])) { ?><div id="modalbg" style="display: none;">
-            <div id="modal">
+        <?php if(!isset($_GET['update'])) { ?><div id="modalbg" style="display: none;" onclick="document.getElementById('modalbg').style.display = 'none';">
+            <div id="modal" onclick="event.stopPropagation();">
                 <form id="editForm">
                     <b>Name:</b>
                     <input type="text" id="editModalGameTitle" name="editModalGameTitle" style="width: 98%;" placeholder="Game title"></input><br /><br />
