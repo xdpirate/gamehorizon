@@ -77,7 +77,7 @@ mysqli_close($link);
     </head>
     
     <body>
-        <?php if(!isset($_GET['update'])) { ?><div id="modalbg" style="display: none;" onclick="document.getElementById('modalbg').style.display = 'none';">
+        <?php if(!isset($_GET['update'])) { ?><div id="modalbg" style="display: none;" onclick="this.style.display = 'none';">
             <div id="modal" onclick="event.stopPropagation();">
                 <form id="editForm">
                     <b>Name:</b>
@@ -172,7 +172,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="unreleasedWrapper">
                     <h2>Unreleased
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Unreleased..." oninput="filterTable('unreleased', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('unreleased', '');">❌</span>
+                            <input type="search" placeholder="Filter Unreleased..." oninput="filterTable('unreleased', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('unreleased', '');">x</span>
                         </div>
                     </h2>
 
@@ -240,7 +240,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="tbaWrapper">
                     <h2>Announced
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Announced..." oninput="filterTable('tba', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('tba', '');">❌</span>
+                            <input type="search" placeholder="Filter Announced..." oninput="filterTable('tba', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('tba', '');">x</span>
                         </div>
                     </h2>
 
@@ -283,7 +283,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="releasedWrapper">
                     <h2>Released
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Released..." oninput="filterTable('released', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('released', '');">❌</span>
+                            <input type="search" placeholder="Filter Released..." oninput="filterTable('released', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('released', '');">x</span>
                         </div>
                     </h2>
 
@@ -325,7 +325,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="collectionWrapper">
                     <h2>Collection
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Collection..." oninput="filterTable('collection', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('collection', '');">❌</span>
+                            <input type="search" placeholder="Filter Collection..." oninput="filterTable('collection', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('collection', '');">x</span>
                         </div>
                     </h2>
                     

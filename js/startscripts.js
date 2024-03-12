@@ -230,17 +230,24 @@ function applyTheme(themeName) {
         }
 
         span.clearSearch {
+            display: inline-block;
             font-size: 0.6em;
+            position: relative;
+            left: -1.5em;
+            width: 0;
+            user-select: none;
         }
 
-        input[type=search] {
-            width: 15em;
-        }
-
+        
         input[type=search], input[type=text], input[type=date], input[type=button], input[type=submit] {
             border: 1px solid ${themes[themeName].foreground};
             border-radius: 10px;
             padding: 5px;
+        }
+        
+        input[type=search] {
+            width: 15em;
+            padding-right: 1.5em;
         }
 
         h1 > a {
