@@ -236,6 +236,7 @@ function applyTheme(themeName) {
             left: -1.5em;
             width: 0;
             user-select: none;
+            color: #f66;
         }
 
         
