@@ -101,11 +101,12 @@ mysqli_close($link);
                             print("<input type='checkbox' id='editModalCheckbox$i' name='editModalPlatforms[]' value='$platformList[$i]' /><label for='editModalCheckbox$i'>$platformList[$i]</label>\n");
                         }
                     ?>
-                    <br /><input type='checkbox' id='editModalCheckboxOther' name='editModalCheckboxOther' /><label for='editModalCheckboxOther'>Other(s):</label> <input type="text" name="editModalOtherPlatforms" id="editModalOtherPlatforms" /> <small>(if more than one, separate with commas)</small>
+                    <br /><input type='checkbox' id='editModalCheckboxOther' name='editModalCheckboxOther' /><label for='editModalCheckboxOther'>Other(s):</label> <input type="text" name="editModalOtherPlatforms" id="editModalOtherPlatforms" placeholder="PC, PS5, Switch" /> <small>(if more than one, separate with commas)</small>
                         
-                    <br /><br />
-                    <input type="submit" value="Save" style="width: 49%; height: 4em;" id="editModalSaveButton" /> 
-                    <input type="button" value="Cancel" style="width: 49%; height: 4em;" id="editModalCancelButton" onclick="document.getElementById('modalbg').style.display = 'none';" />
+                    <div class="formControlsWrapper">
+                        <input type="submit" class="formSaveBtn" value="Save" id="editModalSaveButton" /> 
+                        <input type="button" class="formEditBtn" value="Cancel" id="editModalCancelButton" onclick="document.getElementById('modalbg').style.display = 'none';" />
+                    </div>
 
                     <input type="hidden" name="editID" id="editID" value="0" />
                     <input type="hidden" name="editStatus" id="editStatus" value="unreleased" />
@@ -145,11 +146,12 @@ mysqli_close($link);
                             print("<input type='checkbox' id='platformCheckbox$i' name='platforms[]' value='$platformList[$i]' /><label for='platformCheckbox$i'>$platformList[$i]</label>\n");
                         }
                     ?>
-                    <br /><input type='checkbox' id='platformCheckboxOther' name='platformCheckboxOther' /><label for='platformCheckboxOther'>Other(s):</label> <input type="text" name="addGameOtherPlatforms" id="addGameOtherPlatforms" /> <small>(if more than one, separate with commas)</small>
+                    <br /><input type='checkbox' id='platformCheckboxOther' name='platformCheckboxOther' /><label for='platformCheckboxOther'>Other(s):</label> <input type="text" name="addGameOtherPlatforms" id="addGameOtherPlatforms" placeholder="PC, PS5, Switch" /> <small>(if more than one, separate with commas)</small>
                         
-                    <br /><br />
-                    <input type="submit" value="Save" style="width: 49%; height: 4em;" id="saveButton" /> 
-                    <input type="button" value="Clear" style="width: 49%; height: 4em;" id="clearButton" onclick="this.parentNode.reset();" /> 
+                    <div class="formControlsWrapper">
+                        <input type="submit" class="formSaveBtn" value="Save" id="saveButton" /> 
+                        <input type="button" class="formSaveBtn" value="Clear" id="clearButton" onclick="this.parentNode.reset();" />
+                    </div>
 
                     <input type="hidden" name="submitted" value="1" />
                 </form>

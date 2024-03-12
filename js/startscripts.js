@@ -134,10 +134,15 @@ function filterTable(table, searchStr) {
 function applyTheme(themeName) {
     currentTheme = themeName;
     document.getElementsByTagName('style')[0].innerHTML = `
-        html,body {
+        html, body, input, select, dialog {
             font-family: Arial, Helvetica, sans-serif;
             background-color: ${themes[themeName].background};
             color: ${themes[themeName].foreground};
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
         }
 
         #everything {
@@ -152,12 +157,11 @@ function applyTheme(themeName) {
             left: 50%;
             transform: translate(-50%, -50%);
             width: 600px;
-            height: 260px;
             background-color: ${themes[themeName].background};
             padding: 20px;
             border: 1px solid ${themes[themeName].foreground};
             border-radius: 20px;
-            box-shadow: 10px 10px 5px #888888;
+            box-shadow: 10px 10px 5px ${themes[themeName].background};
         }
 
         #modalbg {
@@ -174,7 +178,7 @@ function applyTheme(themeName) {
         #newGameWrapper, #optionsWrapper, #updateWrapper {
             border: 1px solid ${themes[themeName].foreground};
             border-radius: 10px;
-            padding: 10px;
+            padding: 20px;
             margin-bottom: 20px;
         }
 
@@ -222,7 +226,7 @@ function applyTheme(themeName) {
 
         div.searchbox {
             float: right;
-            margin-bottom: 10px;
+            margin-bottom: 0.6em;
         }
 
         span.clearSearch {
@@ -230,7 +234,10 @@ function applyTheme(themeName) {
         }
 
         input[type=search] {
-            width: 10em;
+            width: 15em;
+        }
+
+        input[type=search], input[type=text], input[type=date], input[type=button], input[type=submit] {
             border: 1px solid ${themes[themeName].foreground};
             border-radius: 10px;
             padding: 5px;
@@ -256,9 +263,9 @@ function applyTheme(themeName) {
             border-radius: 10px;
             color: ${themes[themeName].foreground};
             font-weight: bold;
-            margin-left: 2px;
-            margin-right: 2px;
-            padding: 3px;
+            margin-left: 0.2em;
+            margin-right: 0.2em;
+            padding: 0.2em;
         }
 
         tr:nth-child(odd) {
@@ -309,6 +316,23 @@ function applyTheme(themeName) {
 
         #tbaWrapper, #releasedWrapper, #collectionWrapper {
             display: none;
+        }
+
+        .formControlsWrapper {
+            width: 100%;
+            margin: auto;
+            text-align: center;
+            margin-top: 1em;
+        }
+
+        .formSaveBtn, .formEditBtn {
+            width: 49%;
+            height: 3em;
+        }
+
+        .formSaveBtn, .formEditBtn, #formExportBtn {
+            font-weight: bold;
+            cursor: pointer;
         }
 
         #customSearchEngineBox {

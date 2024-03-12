@@ -54,7 +54,7 @@ optionsBox.innerHTML = `
             
             <br /><br />
 
-            <input type="submit" value="Export">
+            <input type="submit" id="formExportBtn" value="Export">
         </form>
     </div>
 `;
