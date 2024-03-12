@@ -61,7 +61,7 @@ mysqli_close($link);
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style></style> <!-- Defined in ./js/startscripts.js -->
-        <script src="./js/startscripts.js"></script>
+        <script src="./js/startscripts.js?<?php print time(); ?>"></script>
         <link href="./favicon.png" rel="icon" type="image/png" />
 
         <script>
@@ -158,7 +158,7 @@ mysqli_close($link);
             </div>
            
             <div id="optionsWrapper" style="display:none;">
-                <script src="./js/optionsbox.js"></script>
+                <script src="./js/optionsbox.js?<?php print time(); ?>"></script>
             </div>
 
             <div id="savedGamesAreaWrapper">
@@ -376,6 +376,6 @@ mysqli_close($link);
             </div>
         </div>
 
-        <?php if(!isset($_GET['update'])) { ?><script src="./js/endscripts.js"></script><?php } ?>
+        <?php if(!isset($_GET['update'])) { ?><script src="./js/endscripts.js?<?php print time(); ?>"></script><?php } ?>
     </body>
 </html>
