@@ -239,7 +239,7 @@ function applyTheme(themeName) {
         }
 
         
-        input[type=search], input[type=text], input[type=date], input[type=button], input[type=submit] {
+        input[type=search], input[type=text], input[type=date], input[type=button], input[type=submit], input[type=password] {
             border: 1px solid ${themes[themeName].foreground};
             border-radius: 10px;
             padding: 5px;
