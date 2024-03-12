@@ -231,6 +231,9 @@ function applyTheme(themeName) {
 
         input[type=search] {
             width: 10em;
+            border: 1px solid ${themes[themeName].foreground};
+            border-radius: 10px;
+            padding: 5px;
         }
 
         h1 > a {
