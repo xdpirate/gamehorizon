@@ -283,6 +283,10 @@ function applyTheme(themeName) {
             background: ${themes[themeName].evenrow};
         }
 
+        tr {
+            scroll-margin-top: 2em;
+        }
+
         #newEntryToggleDiv, #optionsToggleDiv {
             text-decoration: underline;
             cursor: pointer;
