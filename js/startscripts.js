@@ -105,27 +105,38 @@ function filterTable(table, searchStr) {
             rows[i].style.display = "table-row";
         }
     } else {
-        for(let i = 0; i < rows.length; i++) {
-            if(i !== (rows.length - 1)) { // Ignore last element
-                if(rows[i].querySelector("td:nth-child(1)").innerText.trim().toLowerCase().includes(searchStr)) {
-                    // Search titles
-                    rows[i].style.display = "table-row";
-                } else {
-                    // Search platforms
-                    let platformLabels = rows[i].querySelectorAll("td > span.platformLabel");
-                    let matched = false;
-                    for(let j = 0; j < platformLabels.length; j++) {
-                        if(platformLabels[j].innerText.trim().toLowerCase().includes(searchStr)) {
-                            rows[i].style.display = "table-row";
-                            matched = true;
-                            break;
-                        }
-                    }
+        for(let i = 0; i < (rows.length - 1); i++) {
+            let matched = false;
 
-                    if(!matched) {
-                        rows[i].style.display = "none";
+            if(rows[i].querySelector("td:nth-child(1)").innerText.trim().toLowerCase().includes(searchStr)) {
+                // Search titles
+                rows[i].style.display = "table-row";
+                matched = true;
+            }
+            
+            if(!matched) {
+                // Search platforms
+                let platformLabels = rows[i].querySelectorAll("td > span.platformLabel");
+                for(let j = 0; j < platformLabels.length; j++) {
+                    if(platformLabels[j].innerText.trim().toLowerCase().includes(searchStr)) {
+                        rows[i].style.display = "table-row";
+                        matched = true;
+                        break;
                     }
                 }
+            }
+
+            if(!matched && table == "unreleased") {
+                // Search release dates
+                let releaseDate = rows[i].querySelector("td > span.releaseDateLabel").innerText.trim();
+                if(releaseDate.includes(searchStr)) {
+                    rows[i].style.display = "table-row";
+                    matched = true;
+                }
+            }
+
+            if(!matched) {
+                rows[i].style.display = "none";
             }
         }
     }

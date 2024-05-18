@@ -217,7 +217,7 @@ mysqli_close($link);
                                             $class = "gameReleased";
                                         }
 
-                                        $outputstring = "<tr id='u$gameID'><td>$gameTitle</td><td><span title='$remainingStr' class='$class'>$releaseDate</span></td><td>";
+                                        $outputstring = "<tr id='u$gameID'><td>$gameTitle</td><td><span title='$remainingStr' class='releaseDateLabel $class'>$releaseDate</span></td><td>";
 
                                         if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                             for($j = 0; $j < sizeof($platforms); $j++) {
