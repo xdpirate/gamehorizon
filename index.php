@@ -172,7 +172,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="unreleasedWrapper">
                     <h2>Unreleased
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Unreleased..." oninput="filterTable('unreleased', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('unreleased', '');">x</span>
+                            <input id="filterUnreleased" type="search" placeholder="Filter Unreleased..." oninput="filterTable('unreleased', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('unreleased', '');">x</span>
                         </div>
                     </h2>
 
@@ -221,7 +221,7 @@ mysqli_close($link);
 
                                         if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                             for($j = 0; $j < sizeof($platforms); $j++) {
-                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                                $outputstring .= "<span class='platformLabel' title='Click to set as current filter' onclick='let fb = document.getElementById(\"filterUnreleased\"); fb.value = \"$platforms[$j]\"; fb.dispatchEvent(new Event(\"input\"));'>$platforms[$j]</span>";
                                             }
                                         }
 
@@ -240,7 +240,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="tbaWrapper">
                     <h2>Announced
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Announced..." oninput="filterTable('tba', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('tba', '');">x</span>
+                            <input id="filterAnnounced" type="search" placeholder="Filter Announced..." oninput="filterTable('tba', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('tba', '');">x</span>
                         </div>
                     </h2>
 
@@ -264,7 +264,7 @@ mysqli_close($link);
 
                                         if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                             for($j = 0; $j < sizeof($platforms); $j++) {
-                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                                $outputstring .= "<span class='platformLabel' title='Click to set as current filter' onclick='let fb = document.getElementById(\"filterAnnounced\"); fb.value = \"$platforms[$j]\"; fb.dispatchEvent(new Event(\"input\"));'>$platforms[$j]</span>";
                                             }
                                         }
 
@@ -283,7 +283,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="releasedWrapper">
                     <h2>Released
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Released..." oninput="filterTable('released', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('released', '');">x</span>
+                            <input id="filterReleased" type="search" placeholder="Filter Released..." oninput="filterTable('released', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('released', '');">x</span>
                         </div>
                     </h2>
 
@@ -306,7 +306,7 @@ mysqli_close($link);
 
                                         if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                             for($j = 0; $j < sizeof($platforms); $j++) {
-                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                                $outputstring .= "<span class='platformLabel' title='Click to set as current filter' onclick='let fb = document.getElementById(\"filterReleased\"); fb.value = \"$platforms[$j]\"; fb.dispatchEvent(new Event(\"input\"));'>$platforms[$j]</span>";
                                             }
                                         }
 
@@ -325,7 +325,7 @@ mysqli_close($link);
                 <div class="tableWrapper" id="collectionWrapper">
                     <h2>Collection
                         <div class="searchbox">
-                            <input type="search" placeholder="Filter Collection..." oninput="filterTable('collection', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('collection', '');">x</span>
+                            <input id="filterCollection" type="search" placeholder="Filter Collection..." oninput="filterTable('collection', this.value);" autocomplete="off"> <span class="pointer clearSearch" title="Clear filter" onclick="this.previousElementSibling.value = ''; filterTable('collection', '');">x</span>
                         </div>
                     </h2>
                     
@@ -348,7 +348,7 @@ mysqli_close($link);
 
                                         if(sizeof($platforms) > 0 && $platforms[0] !== "") {
                                             for($j = 0; $j < sizeof($platforms); $j++) {
-                                                $outputstring .= "<span class='platformLabel'>$platforms[$j]</span>";
+                                                $outputstring .= "<span class='platformLabel' title='Click to set as current filter' onclick='let fb = document.getElementById(\"filterCollection\"); fb.value = \"$platforms[$j]\"; fb.dispatchEvent(new Event(\"input\"));'>$platforms[$j]</span>";
                                             }
                                         }
 
@@ -372,7 +372,7 @@ mysqli_close($link);
             <?php } ?>
 
             <div id="footer">
-                GameHorizon <?php $commitHash = substr(file_get_contents('.git/refs/heads/main'),0,7); print("(ver. <a href='https://github.com/xdpirate/gamehorizon/commit/$commitHash'>$commitHash</a>)"); ?> &copy; 2023 xdpirate. Licensed under the <a href="https://github.com/xdpirate/gamehorizon/blob/main/LICENSE.md" target="_blank">GNU General Public License v3.0</a>. <a href="https://github.com/xdpirate/gamehorizon" target="_blank">Github</a> <?php if($updaterEnabled == true) { ?><a href="./?update" title="Click to update this installation of GameHorizon. Requires git on the server.">Update</a><?php } ?>
+                GameHorizon <?php $commitHash = substr(file_get_contents('.git/refs/heads/main'),0,7); print("(ver. <a href='https://github.com/xdpirate/gamehorizon/commit/$commitHash'>$commitHash</a>)"); ?> &copy; 2023-2024 xdpirate. Licensed under the <a href="https://github.com/xdpirate/gamehorizon/blob/main/LICENSE.md" target="_blank">GNU General Public License v3.0</a>. <a href="https://github.com/xdpirate/gamehorizon" target="_blank">Github</a> <?php if($updaterEnabled == true) { ?><a href="./?update" title="Click to update this installation of GameHorizon. Requires git on the server.">Update</a><?php } ?>
             </div>
         </div>
 

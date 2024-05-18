@@ -273,6 +273,7 @@ function applyTheme(themeName) {
             margin-left: 0.2em;
             margin-right: 0.2em;
             padding: 0.2em;
+            cursor: pointer;
         }
 
         tr:nth-child(odd) {
