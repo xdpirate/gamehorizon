@@ -29,7 +29,7 @@ include("./credentials.php");
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 ini_set("display_errors", 1);
 
-$platformList = ["PS5", "PS4", "XSX", "XB1", "Switch", "PC", "Android", "PSVR2", "iOS"];
+$platformList = ["PS5", "PS4", "XSX", "XB1", "Switch", "Switch 2", "PC", "Android", "PSVR2", "iOS"];
 sort($platformList);
 
 require("./php/functions.php");
