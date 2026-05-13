@@ -9,7 +9,7 @@ mysqli_query($link, "
         `ReleaseDate` varchar(255) NOT NULL,
         `Platforms` varchar(255) NOT NULL,
         PRIMARY KEY (`ID`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;");
 
 mysqli_query($link, "
     CREATE TABLE IF NOT EXISTS `gamesReleased` (
@@ -17,7 +17,7 @@ mysqli_query($link, "
         `GameName` varchar(255) NOT NULL,
         `Platforms` varchar(255) NOT NULL,
         PRIMARY KEY (`ID`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;");
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;");
 
 mysqli_query($link, "CREATE TABLE IF NOT EXISTS `gamesTBA` LIKE `gamesReleased`;");
 mysqli_query($link, "CREATE TABLE IF NOT EXISTS `gamesCollected` LIKE `gamesReleased`;");
