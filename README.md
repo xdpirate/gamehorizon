@@ -92,6 +92,10 @@ There are currently zero security measures implemented. For external access, you
 
 If you are running GameHorizon in Docker and also exposing it outside your own network, you need to change the MySQL username and password in `docker-compose.yml` and `index.php` to something unique! If you don't, your database will be vulnerable, as the default credentials are included in plain text in this repository.
 
+## Privacy
+
+GameHorizon collects no user data and doesn't connect to any remote servers. All the data you feed into the application is saved in your own, local database.
+
 ## Updater
 
 You can update GameHorizon through the UI by clicking "Update" on the bottom right of the page. This is disabled by default, as it requires you to be running GameHorizon outside of Docker and inside a trusted environment. It requires `git` to be installed on a UNIX-like server. GameHorizon passes your password to the OS in plain text, and although it isn't logged, the mechanism in which it operates can be abused by someone with access to the updater. In order to enable the updater, you must add this to your `credentials.php`:
@@ -105,7 +109,7 @@ This can be toggled on and off at will, and will apply on the next page load. Yo
 GameHorizon is free and open source software, licensed under the GNU General Public License v3.0.
 
     GameHorizon -  Simple self-hosted tracker for upcoming and collected games
-    Copyright ©️ 2023 xdpirate
+    Copyright ©️ 2023-2026 xdpirate
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
