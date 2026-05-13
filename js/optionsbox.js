@@ -10,6 +10,7 @@ optionsBox.innerHTML = `
         <label for="searchEngine">Search engine:</label>
 
         <select name="searchEngine" id="searchEngine" onchange="searchEngineHandler();saveSettings();">
+            <option value="qwant"${searchEngine == "qwant" ? " selected" : ""}>Qwant</option>
             <option value="startpage"${searchEngine == "startpage" ? " selected" : ""}>Startpage</option>
             <option value="ddg"${searchEngine == "ddg" ? " selected" : ""}>DuckDuckGo</option>
             <option value="google"${searchEngine == "google" ? " selected" : ""}>Google</option>

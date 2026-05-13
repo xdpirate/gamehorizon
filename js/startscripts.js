@@ -50,6 +50,7 @@ let searchEngine = getCookie("searchEngine");
 let searchEngineCustomURL = getCookie("searchEngineCustomURL");
 
 let searchEngines = {
+    "qwant": "https://qwant.com/?q=%s",
     "startpage": "https://www.startpage.com/sp/search?query=%s",
     "ddg": "https://duckduckgo.com/?q=%s",
     "google": "https://www.google.com/search?q=%s",
@@ -86,14 +87,6 @@ function saveSettings() {
     document.cookie = "searchEngineCustomURL=" + encodeURIComponent(searchEngineCustomURL) + ";" + expires + ";SameSite=Lax;path=/";
 
     applySearchEngine();
-}
-
-function doSearch(gameName) {
-    if(searchEngines[searchEngine].includes("%s")) {
-        window.open(searchEngines[searchEngine].replace("%s", gameName), '_blank');
-    } else {
-        alert("Malformed custom search engine URL, it must contain %s to substitute search terms.");
-    }
 }
 
 function filterTable(table, searchStr) {
@@ -386,7 +379,7 @@ function applySearchEngine() {
     let searchBtns = document.querySelectorAll(".searchButton");
     for(let i = 0; i < searchBtns.length; i++) {
         let gameTitle = searchBtns[i].closest("tr").firstElementChild.innerText.trim();
-        searchBtns[i].href = searchEngines[searchEngine].replace("%s", gameTitle);
+        searchBtns[i].href = searchEngines[searchEngine].replace("%s", encodeURIComponent(gameTitle));
         searchBtns[i].title = `Search the web for ${gameTitle}`;
     }
 }
@@ -400,7 +393,7 @@ if(isNaN(hideAddGame) || hideAddGame == undefined || hideAddGame == null || hide
 }
 
 if(searchEngine == undefined || searchEngine == null || searchEngine.trim() == "") {
-    searchEngine = "startpage";
+    searchEngine = "qwant";
 }
 
 applyTheme(currentTheme);
